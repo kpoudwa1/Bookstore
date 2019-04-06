@@ -71,3 +71,33 @@ Driven by demons, Jobs could drive those around him to fury and despair. But his
 INSERT INTO BOOKSTORE.BOOK (Title, Authors, Category, Summary, CREATED_ON, CREATED_BY) VALUES ('The Pursuit of Happyness','Chris Gardner','Biographies & Memoirs','At the age of twenty, Milwaukee native Chris Gardner, just out of the Navy, arrived in San Francisco to pursue a promising career in medicine. Considered a prodigy in scientific research, he surprised everyone and himself by setting his sights on the competitive world of high finance. Yet no sooner had he landed an entry-level position at a prestigious firm than Gardner found himself caught in a web of incredibly challenging circumstances that left him as part of the city''s working homeless and with a toddler son. Motivated by the promise he made to himself as a fatherless child to never abandon his own children, the two spent almost a year moving among shelters, ""HO-tels,"" soup lines, and even sleeping in the public restroom of a subway station.
 Never giving in to despair, Gardner made an astonishing transformation from being part of the city''s invisible poor to being a powerful player in its financial district.
 More than a memoir of Gardner''s financial success, this is the story of a man who breaks his own family''s cycle of men abandoning their children. Mythic, triumphant, and unstintingly honest, The Pursuit of Happyness conjures heroes like Horatio Alger and Antwone Fisher, and appeals to the very essence of the American Dream.', current_timestamp(), 'Kedar');
+
+--Book_Format
+INSERT INTO BOOKSTORE.BOOK_FORMAT (TITLE, ISBN_10, ISBN_13, FORMAT, PRICE, NUM_COPIES, CREATED_ON, CREATED_BY) VALUES
+('The Monk Who Sold His Ferrari', '9780062515674', '978-0062515674', 'PAPERBACK', 11.83, 100, current_timestamp(), 'Kedar');
+INSERT INTO BOOKSTORE.BOOK_FORMAT (TITLE, ISBN_10, ISBN_13, FORMAT, PRICE, NUM_COPIES, CREATED_ON, CREATED_BY) VALUES
+('The Monk Who Sold His Ferrari', '9780062515674', '978-0062515674', 'HARDCOVER', 33.32, 100, current_timestamp(), 'Kedar');
+INSERT INTO BOOKSTORE.BOOK_FORMAT (TITLE, ISBN_10, ISBN_13, FORMAT, PRICE, NUM_COPIES, CREATED_ON, CREATED_BY) VALUES
+('The Alchemist', '0062315005', '978-0062315007', 'PAPERBACK', 10.27, 100, current_timestamp(), 'Kedar');
+INSERT INTO BOOKSTORE.BOOK_FORMAT (TITLE, ISBN_10, ISBN_13, FORMAT, PRICE, NUM_COPIES, CREATED_ON, CREATED_BY) VALUES
+('The Alchemist', '0062315005', '978-0062315007', 'HARDCOVER', 18.99, 100, current_timestamp(), 'Kedar');
+INSERT INTO BOOKSTORE.BOOK_FORMAT (TITLE, ISBN_10, ISBN_13, FORMAT, PRICE, NUM_COPIES, CREATED_ON, CREATED_BY) VALUES
+('The Immortals of Meluha', '9380658745', '978-9380658745', 'PAPERBACK', 13.26, 100, current_timestamp(), 'Kedar');
+INSERT INTO BOOKSTORE.BOOK_FORMAT (TITLE, ISBN_10, ISBN_13, FORMAT, PRICE, NUM_COPIES, CREATED_ON, CREATED_BY) VALUES
+('The Immortals of Meluha', '9380658745', '978-9380658745', 'HARDCOVER', 36.02, 100, current_timestamp(), 'Kedar');
+INSERT INTO BOOKSTORE.BOOK_FORMAT (TITLE, ISBN_10, ISBN_13, FORMAT, PRICE, NUM_COPIES, CREATED_ON, CREATED_BY) VALUES
+('The Secret of the Nagas', '9381626340', '978-9381626344', 'PAPERBACK', 7.89, 100, current_timestamp(), 'Kedar');
+INSERT INTO BOOKSTORE.BOOK_FORMAT (TITLE, ISBN_10, ISBN_13, FORMAT, PRICE, NUM_COPIES, CREATED_ON, CREATED_BY) VALUES
+('The Secret of the Nagas', '9381626340', '978-9381626344', 'HARDCOVER', 40.98, 100, current_timestamp(), 'Kedar');
+INSERT INTO BOOKSTORE.BOOK_FORMAT (TITLE, ISBN_10, ISBN_13, FORMAT, PRICE, NUM_COPIES, CREATED_ON, CREATED_BY) VALUES
+('The Oath of the Vayuputras', '9382618341', '978-9382618341', 'PAPERBACK', 17.42, 100, current_timestamp(), 'Kedar');
+INSERT INTO BOOKSTORE.BOOK_FORMAT (TITLE, ISBN_10, ISBN_13, FORMAT, PRICE, NUM_COPIES, CREATED_ON, CREATED_BY) VALUES
+('The Oath of the Vayuputras', '9382618341', '978-9382618341', 'HARDCOVER', 53.32, 100, current_timestamp(), 'Kedar');
+INSERT INTO BOOKSTORE.BOOK_FORMAT (TITLE, ISBN_10, ISBN_13, FORMAT, PRICE, NUM_COPIES, CREATED_ON, CREATED_BY) VALUES
+('Steve Jobs', '1451648537', '978-1451648539', 'PAPERBACK', 15.49, 100, current_timestamp(), 'Kedar');
+INSERT INTO BOOKSTORE.BOOK_FORMAT (TITLE, ISBN_10, ISBN_13, FORMAT, PRICE, NUM_COPIES, CREATED_ON, CREATED_BY) VALUES
+('Steve Jobs', '1451648537', '978-1451648539', 'HARDCOVER', 55.32, 100, current_timestamp(), 'Kedar');
+INSERT INTO BOOKSTORE.BOOK_FORMAT (TITLE, ISBN_10, ISBN_13, FORMAT, PRICE, NUM_COPIES, CREATED_ON, CREATED_BY) VALUES
+('The Pursuit of Happyness', '0060744871', '978-0060744878', 'PAPERBACK', 9.80, 100, current_timestamp(), 'Kedar');
+INSERT INTO BOOKSTORE.BOOK_FORMAT (TITLE, ISBN_10, ISBN_13, FORMAT, PRICE, NUM_COPIES, CREATED_ON, CREATED_BY) VALUES
+('The Pursuit of Happyness', '0060744871', '978-0060744878', 'HARDCOVER', 14.49, 100, current_timestamp(), 'Kedar');
