@@ -1,5 +1,6 @@
 package com.bookstore.driver;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.apache.logging.log4j.LogManager;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.bookstore.exceptions.BookNotFoundException;
 
 @RestController
 @CrossOrigin(origins="http://localhost:3000")
@@ -47,9 +50,28 @@ public class BookstoreController
 	 * @return 
 	 */
 	@GetMapping("/books/{title}")
-	public List<Object[]> getBookByTitle(@PathVariable String title)
+	public List<Book> getBookByTitle(@PathVariable String title)
 	{
 		log.info("Getting the details for book with title " + title);
-		return bookRepo.findByTitle(title);
+		List<Object[]> booksObject = bookRepo.findByTitle(title);
+		
+		//Creating a List<Book> from List<Object[]> 
+		List<Book> books = new ArrayList<Book>();
+		for(Object obj[]: booksObject)
+		{
+			Book book = new Book();
+			book.setId((int) obj[0]);
+			book.setTitle((String) obj[1]);
+			book.setImage((byte[]) obj[2]);
+
+			books.add(book);
+		}
+		
+		System.out.println(books);
+		System.out.println(books.size());
+		if(books != null && books.size() == 0)
+			throw new BookNotFoundException("The book with the title '" + title + "' cannot be found");
+		
+		return books;
 	}
 }
