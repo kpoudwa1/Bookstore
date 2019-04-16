@@ -9,19 +9,22 @@ class SearchResultComponent extends Component {
 		this.state = {
 			books : []
 		}
+		this.handleSuccessfulResponse = this.handleSuccessfulResponse.bind(this)
+		this.handleErrorResponse = this.handleErrorResponse.bind(this)
 	}
 	
   render() {
     return (
       <div className="SearchResultComponent">
 		<label><h2>Results...</h2></label>
-		<table>
+		<hr/>
+		<table style={tableStyle}>
 			<tbody>
 				{
 					this.state.books.map(book => 
 							<tr>
-								<td><img width="70px" src={'data:image/jpeg;base64,' + book[2]}/></td>
-								<td><Link to={"/bookdetails/" + book[0]}>{book[1]}</Link></td>
+								<td style={imageWidth}><img width="70px" src={'data:image/jpeg;base64,' + book.image}/></td>
+								<td style={padding} align="left"><Link to={"/bookdetails/" + book.id}>{book.title}</Link></td>
 							</tr>
 					)
 				}
@@ -41,6 +44,7 @@ class SearchResultComponent extends Component {
     console.log(`GrandChild did mount. ${this.props.match.params.title}`);
 	SearchAPI.executeSearchAPIService(this.props.match.params.title)
 	.then(response => this.handleSuccessfulResponse(response))
+	.catch(error => this.handleErrorResponse(error))
   }
   
   handleSuccessfulResponse(response)
@@ -50,12 +54,44 @@ class SearchResultComponent extends Component {
 		  books: response.data
 	  })
 	  console.log('Books:::::::::')
-	  console.log(this.state.books[0][2])
+	  //console.log(this.state.books[0][2])
 	  
 	  return (
 		<div>Hi TEST</div>
 	  )
   }
+  
+  handleErrorResponse(error)
+  {
+	  if(error.response.status === 404)
+		error.response.status = error.response.status + ' Not found';
+
+	  var errorObj =
+	  {
+		  status: error.response.status,
+		  details: error.response.data.details,
+		  message: error.response.data.message,
+		  timestamp: error.response.data.timestamp
+	  }
+	  this.props.history.push({
+		  pathname: '/error',
+		  state: errorObj
+	  })
+  }
+}
+
+var tableStyle = 
+{
+	width: '90%'
+}
+var padding = 
+{
+	padding: '15px',
+}
+var imageWidth =
+{
+	width: '70px',
+	paddingLeft: '15px'
 }
 
 export default SearchResultComponent;

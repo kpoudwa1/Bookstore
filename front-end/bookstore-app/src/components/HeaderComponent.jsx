@@ -18,7 +18,7 @@ class HeaderComponent extends Component {
       <div className="HeaderComponent">
 		<header>
 			<nav className="navbar navbar-expand-md navbar-dark bg-dark">
-				<div><a className="navbar-brand">Turn the Page</a></div>
+				<div><a href="/" className="navbar-brand"><img border="0" src={require('./logo-bookstore.png')} width="100" height="100"/></a></div>Turn the Page
 				<ul className="navbar-nav">
 					<li className="nav-link"><Link to="">Home</Link></li>
 					<li className="nav-link"><Link to="/dealstoday">Today's Deals</Link></li>

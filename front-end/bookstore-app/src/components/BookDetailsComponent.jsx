@@ -5,12 +5,29 @@ class BookDetailsComponent extends Component {
 	constructor(props)
 	{
 		super(props)
+		this.state = {
+			book : {}
+		}
+		this.handleSuccessfulResponse = this.handleSuccessfulResponse.bind(this)
 	}
 	
   render() {
     return (
       <div className="BookDetailsComponent">
 		<label><h2>TODO: Display the details of the book</h2></label>
+		<table style={tableStyle}>
+			<tbody>
+			<tr>
+				<td style={padding}>
+					<img width="150px" src={'data:image/jpeg;base64,' + this.state.book.image}/>
+				</td>
+				<td style={padding}>
+					<h2 align="left">{this.state.book.title} by {this.state.book.authors}</h2>
+					<p align="justify">{this.state.book.summary}</p>
+				</td>
+			</tr>
+			</tbody>
+		</table>
       </div>
     );
   }
@@ -26,15 +43,24 @@ class BookDetailsComponent extends Component {
   {
 	  console.log(response.data)
 	  this.setState({
-		  books: response.data
+		  book: response.data
 	  })
 	  console.log('Books:::::::::')
-	  console.log(this.state.books[0][2])
+	  console.log(this.state.book.id)
 	  
 	  return (
 		<div>Hi TEST</div>
 	  )
   }
+}
+
+var tableStyle = 
+{
+	width: '90%'
+}
+var padding = 
+{
+	padding: '15px'
 }
 
 export default BookDetailsComponent;

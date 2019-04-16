@@ -11,6 +11,7 @@ import SearchComponent from './SearchComponent';
 import FooterComponent from './FooterComponent';
 import SearchResultComponent from './SearchResultComponent';
 import BookDetailsComponent from './BookDetailsComponent';
+import CreateAccountComponent from './CreateAccountComponent';
 
 class IndexComponent extends Component {
 	constructor()
@@ -36,6 +37,8 @@ class IndexComponent extends Component {
 						<Route path="/home" component={UserHomeComponent}/>
 						<Route path="/search/:title" component={SearchResultComponent}/>
 						<Route path="/bookdetails/:id" component={BookDetailsComponent}/>
+						<Route path="/createAccount" component={CreateAccountComponent}/>
+						<Route path="/error" component={ErrorComponent}/>
 						<Route component={ErrorComponent}/>
 					</Switch>
 					<FooterComponent/>

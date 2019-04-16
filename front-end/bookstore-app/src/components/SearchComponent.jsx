@@ -36,8 +36,10 @@ class SearchComponent extends Component {
   searchByTitle()
   {
 	  console.log('searchByTitle' );
-	  console.log('Search text: ' + this.state.title);
-	  this.props.history.push(`/search/${this.state.title}`)
+	  console.log('Search text: ' + this.state.title + '#');
+	  console.log('Search text: ' + this.state.title.length + '#');
+	  if(this.state.title.length > 0)
+		this.props.history.push(`/search/${this.state.title}`)
   }
   
   retrieveWelcomeMessage()
