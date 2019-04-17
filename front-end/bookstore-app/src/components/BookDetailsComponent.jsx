@@ -19,7 +19,7 @@ class BookDetailsComponent extends Component {
 			<tbody>
 			<tr>
 				<td style={padding}>
-					<img width="150px" src={'data:image/jpeg;base64,' + this.state.book.image}/>
+					<img width="150px" alt="{this.state.book.title}" src={'data:image/jpeg;base64,' + this.state.book.image}/>
 				</td>
 				<td style={padding}>
 					<h2 align="left">{this.state.book.title} by {this.state.book.authors}</h2>

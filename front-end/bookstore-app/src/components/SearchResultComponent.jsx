@@ -17,13 +17,13 @@ class SearchResultComponent extends Component {
     return (
       <div className="SearchResultComponent">
 		<label><h2>Results...</h2></label>
-		<hr/>
+		<hr style={hrStyle}/>
 		<table style={tableStyle}>
 			<tbody>
 				{
 					this.state.books.map(book => 
 							<tr>
-								<td style={imageWidth}><img width="70px" src={'data:image/jpeg;base64,' + book.image}/></td>
+								<td style={imageWidth}><img alt="{book.title}" width="70px" src={'data:image/jpeg;base64,' + book.image}/></td>
 								<td style={padding} align="left"><Link to={"/bookdetails/" + book.id}>{book.title}</Link></td>
 							</tr>
 					)
@@ -93,5 +93,12 @@ var imageWidth =
 	width: '70px',
 	paddingLeft: '15px'
 }
+
+const hrStyle = {
+  border: 'none',
+    height: '1px',
+    color: '#333',
+    backgroundColor: '#333'
+};
 
 export default SearchResultComponent;

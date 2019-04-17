@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import UserAPI from '../api/UserAPI.js';
+import Logo from '../logo-white.png';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import {Link} from 'react-router-dom';
 
 class LoginComponent extends Component {
 	constructor(props)
@@ -11,59 +14,63 @@ class LoginComponent extends Component {
 			loginFailed : false,
 			loginSuccess : false
 		}
-		this.handleChange = this.handleChange.bind(this)
 		this.logUser = this.logUser.bind(this)
 		this.createAccount = this.createAccount.bind(this)
 		this.handleSuccessfulResponse = this.handleSuccessfulResponse.bind(this)
 		this.handleErrorResponse = this.handleErrorResponse.bind(this)
+		this.validate = this.validate.bind(this)
 	}
 	
   render() {
+	  let { email, password } = this.state
     return (
       <div className="LoginComponent">
-		<label><h1>TODO: Logo</h1></label>
 		{this.state.loginFailed && <div><h3><font color="red">Invalid Credentials !</font></h3></div>}
 		{this.state.loginSuccess && <div><h3><font color="green">Login successful !</font></h3></div>}
 		<center>
-			<table frame="box">
-				<tbody>
-					<tr>
-						<td>Email: </td>
-						<td><input type="text" name="email" value={this.state.email} onChange={this.handleChange}/></td>
-					</tr>
-					<tr>
-						<td>Password: </td>
-						<td><input type="password" name="password" value={this.state.password} onChange={this.handleChange}/></td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><input type="submit" value="Login" onClick={this.logUser}/></td>
-					</tr>
-					<tr>
-						<td><hr/></td>
-						<td><hr/></td>
-					</tr>
-					<tr>
-						<td>New user ?</td>
-						<td><input type="submit" value="Create a new account" onClick={this.createAccount}/></td>
-					</tr>
-				</tbody>
-			</table>
+			<div><a href="/" className="navbar-brand"><img alt="Turn the page" src={Logo} width="150" height="150"/></a></div>
+			<div className="container">
+                    <Formik
+                        initialValues={{ email, password }}
+                        onSubmit={this.logUser}
+                        validateOnChange={false}
+                        validate={this.validate}
+                        enableReinitialize={true}
+                    >
+                        {
+                            (props) => (
+                                <Form>
+                                    <ErrorMessage name="email" component="div"
+                                        className="alert alert-warning" />
+                                    <fieldset className="form-group">
+                                        <label>Email</label>
+                                        <Field className="form-control" type="text" name="email" />
+                                    </fieldset>
+									
+									<ErrorMessage name="password" component="div"
+                                        className="alert alert-warning" />
+                                    <fieldset className="form-group">
+                                        <label>Password</label>
+                                        <Field className="form-control" type="password" name="password" />
+                                    </fieldset>
+									
+                                    <button className="btn btn-success" type="submit">Login</button>
+									<hr style={hrStyle}/>
+									<Link to={"/createAccount"}>New User?</Link>
+                                </Form>
+                            )
+                        }
+                    </Formik>
+                </div>
 		</center>
       </div>
     );
   }
   
-  handleChange(event)
-  {
-	  this.setState({
-		  [event.target.name] : event.target.value,
-	  })
-  }
-  
-  logUser()
+  logUser(values)
   {
 	  console.log('Log the user');
+	  console.log(values);
 	  console.log(this.state);
 	  let user = { 
 		email : this.state.email,
@@ -72,26 +79,21 @@ class LoginComponent extends Component {
 	  UserAPI.executeAuthenticateUserAPIService(user)
 		.then(response => this.handleSuccessfulResponse(response))
 	    .catch(error => this.handleErrorResponse(error))
-	  
-	  
-	  /*if(this.state.email === 'kedar' && this.state.password === 'test')
-	  {
-		  console.log('Login successful');
-		  this.props.history.push("/home")
-		  //this.setState({
-			//  loginSuccess : true,
-			 // loginFailed : false
-		  //})
-	  }
-	  else
-	  {
-		  console.log('Login failed');
-		  this.setState({
-			loginFailed : true,
-			loginSuccess : false
-		})
-	  }*/
 	  console.log(this.state);
+  }
+  
+  validate(values)
+  {
+	  console.log(values)
+	  let errors = {};
+	  let message = 'This field is mandatory';
+	  
+	  if(!values.email)
+		  errors.email = message;
+	  if(!values.password)
+		  errors.password = message;
+	  
+	  return errors;
   }
   
   createAccount()
@@ -119,5 +121,12 @@ class LoginComponent extends Component {
 		})
   }
 }
+
+const hrStyle = {
+  border: 'none',
+    height: '1px',
+    color: '#333',
+    backgroundColor: '#333'
+};
 
 export default LoginComponent;

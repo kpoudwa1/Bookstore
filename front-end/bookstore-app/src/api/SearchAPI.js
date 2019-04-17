@@ -10,8 +10,8 @@ class SearchAPI
 	
 	executeBookDetailsAPIService(id)
 	{
-		console.log('executeBookDetailsAPIService executed')
-		return axios.get(`http://localhost:8080/bookstore/booksDetails/${id}`)
+		console.log('executeBookDetailsAPIService executed for ' + id)
+		return axios.get(`http://localhost:8080/bookstore/booksDetailsNew/${id}`)
 	}
 }
 

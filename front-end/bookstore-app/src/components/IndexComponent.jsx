@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-import HelloWorldService from '../api/HelloWorldService.js';
 import LoginComponent from './LoginComponent';
 import DealsTodayComponent from './DealsTodayComponent';
 import AboutComponent from './AboutComponent';
@@ -8,7 +7,6 @@ import UserHomeComponent from './UserHomeComponent';
 import ErrorComponent from './ErrorComponent';
 import HeaderComponent from './HeaderComponent';
 import SearchComponent from './SearchComponent';
-import FooterComponent from './FooterComponent';
 import SearchResultComponent from './SearchResultComponent';
 import BookDetailsComponent from './BookDetailsComponent';
 import CreateAccountComponent from './CreateAccountComponent';
@@ -20,7 +18,6 @@ class IndexComponent extends Component {
 		this.state = {
 			title : ''
 		}
-		this.retrieveWelcomeMessage = this.retrieveWelcomeMessage.bind(this);
 		this.handleSuccessfulResponse = this.handleSuccessfulResponse.bind(this);
 	}
   render() {
@@ -41,20 +38,10 @@ class IndexComponent extends Component {
 						<Route path="/error" component={ErrorComponent}/>
 						<Route component={ErrorComponent}/>
 					</Switch>
-					<FooterComponent/>
 				</>
 		</Router>
       </div>
     );
-  }
-  
-  retrieveWelcomeMessage()
-  {
-	console.log('AAAAAAAAAAAAA: retrieveWelcomeMessage');
-	HelloWorldService.executeHelloWorldService()
-	.then(response => this.handleSuccessfulResponse(response))
-	//.then(response => console.log(response))
-	//.catch()
   }
   
   handleSuccessfulResponse(response)
