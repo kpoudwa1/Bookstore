@@ -55,10 +55,6 @@ class SearchResultComponent extends Component {
 	  })
 	  console.log('Books:::::::::')
 	  //console.log(this.state.books[0][2])
-	  
-	  return (
-		<div>Hi TEST</div>
-	  )
   }
   
   handleErrorResponse(error)
