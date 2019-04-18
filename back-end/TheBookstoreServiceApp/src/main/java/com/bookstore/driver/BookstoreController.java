@@ -1,6 +1,5 @@
 package com.bookstore.driver;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.apache.logging.log4j.LogManager;
@@ -24,54 +23,42 @@ public class BookstoreController
 	private static Logger log = LogManager.getLogger(BookstoreController.class);
 	
 	/** 
-	 * Function for getting a list of book name and images
+	 * Function for searching whether a book exists in the repository
+	 *  on the basis of title.
+	 * @param title The title for the book which is to be checked.
+	 * @return Returns a projection list of book id, name and image.
+	 * @exception BookNotFoundException Returns an exception when the
+	 *  book does not exists in the repository.
 	 */
-	@GetMapping("/books/")
-	public List<Object[]> getBooksList()
+	@GetMapping("/books/{title}")
+	public List<BooksListProjection> getBookByTitle(@PathVariable String title)
 	{
-		log.info("Getting the list of all books");
-		return bookRepo.findList();
+		log.info("Searching for the book with title '" + title + "'");
+		
+		List<BooksListProjection> booksList = bookRepo.findByTitleContaining(title);
+		if(booksList != null && booksList.size() == 0)
+			throw new BookNotFoundException("Sorry! The book with the title '" + title + "' cannot be found");
+		
+		return booksList;
 	}
 	
 	/** 
-	 * Function for getting the details of a book
-	 * @return 
+	 * Function for getting the details of a book on the basis of id.
+	 * @param id The id for the book for which details have to be
+	 *  fetched.
+	 * @return Returns the details of the book.
+	 * @exception BookNotFoundException Returns an exception if an
+	 *  invalid id is passed.
 	 */
 	@GetMapping("/booksDetails/{id}")
 	public Optional<Book> getBookDetails(@PathVariable int id)
 	{
-		log.info("Getting the details for book with id " + id);
-		return bookRepo.findById(id);
-	}
-	
-	/** 
-	 * Function for getting a list of book name and images by performing
-	 *  a search on the book title
-	 * @return 
-	 */
-	@GetMapping("/books/{title}")
-	public List<Book> getBookByTitle(@PathVariable String title)
-	{
-		log.info("Getting the details for book with title " + title);
-		List<Object[]> booksObject = bookRepo.findByTitle(title);
+		log.info("Getting the details for book with id '" + id + "'");
 		
-		//Creating a List<Book> from List<Object[]> 
-		List<Book> books = new ArrayList<Book>();
-		for(Object obj[]: booksObject)
-		{
-			Book book = new Book();
-			book.setId((int) obj[0]);
-			book.setTitle((String) obj[1]);
-			book.setImage((byte[]) obj[2]);
-
-			books.add(book);
-		}
+		Optional<Book> bookDetails = bookRepo.findById(id);
+		if(!bookDetails.isPresent())
+			throw new BookNotFoundException("Sorry! Invalid book id '" + id + "'");
 		
-		System.out.println(books);
-		System.out.println(books.size());
-		if(books != null && books.size() == 0)
-			throw new BookNotFoundException("The book with the title '" + title + "' cannot be found");
-		
-		return books;
+		return bookDetails;
 	}
 }

@@ -1,8 +1,18 @@
 package com.bookstore.driver;
 
+import java.util.Arrays;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -14,14 +24,22 @@ public class Book
 	private int id;
 	@Column(name="TITLE")
 	private String title;
-	@Column(name="AUTHORS")
-	private String authors;
-	@Column(name="CATEGORY")
-	private String category;
 	@Column(name="IMAGE")
 	private byte[] image;
 	@Column(name="SUMMARY")
 	private String summary;
+	
+	@ManyToOne
+    @JoinColumn(name = "CATEGORY_ID")
+	private BookCategory bookCategory;
+	
+	@OneToMany
+    @JoinColumn(name = "ID", insertable=false, updatable=false)
+	private List<BookFormat> bookFormat;
+	
+	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE})
+	@JoinTable(name = "BOOK_AUTHOR", joinColumns = { @JoinColumn(name = "BOOK_ID") }, inverseJoinColumns = { @JoinColumn(name = "AUTHOR_ID") })
+	private List<Author> authors;
 	
 	public Book()
 	{}
@@ -45,27 +63,16 @@ public class Book
 	{
 		this.title = title;
 	}
-	
-	public String getAuthors() 
+
+	public BookCategory getBookCategory()
 	{
-		return authors;
+		return bookCategory;
 	}
-	
-	public void setAuthors(String authors) 
+
+	public void setBookCategory(BookCategory bookCategory)
 	{
-		this.authors = authors;
+		this.bookCategory = bookCategory;
 	}
-	
-	public String getCategory() 
-	{
-		return category;
-	}
-	
-	public void setCategory(String category) 
-	{
-		this.category = category;
-	}
-	
 
 	public byte[] getImage()
 	{
@@ -86,11 +93,26 @@ public class Book
 	{
 		this.summary = summary;
 	}
+	
+	public List<BookFormat> getBookFormat() {
+		return bookFormat;
+	}
+
+	public void setBookFormat(List<BookFormat> bookFormat) {
+		this.bookFormat = bookFormat;
+	}
+
+	public List<Author> getAuthors() {
+		return authors;
+	}
+
+	public void setAuthors(List<Author> authors) {
+		this.authors = authors;
+	}
 
 	@Override
-	public String toString()
-	{
-		return "Book [id=" + id + ", title=" + title + ", authors=" + authors + ", category=" + category + ", image="
-				+ image + ", summary=" + summary + "]";
+	public String toString() {
+		return "Book [id=" + id + ", title=" + title + ", image=" + Arrays.toString(image) + ", summary=" + summary
+				+ ", bookCategory=" + bookCategory + ", bookFormat=" + bookFormat + ", authors=" + authors + "]";
 	}
 }
