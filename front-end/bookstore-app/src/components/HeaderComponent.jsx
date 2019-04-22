@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
 import Logo from '../logo-dark.png';
+import UserAPI from '../api/UserAPI.js';
 
 class HeaderComponent extends Component {
 	constructor(props)
@@ -13,6 +14,7 @@ class HeaderComponent extends Component {
 	}
 	
   render() {
+	  const isUserLoggedIn = UserAPI.isUserLoggedIn();
     return (
       <div className="HeaderComponent">
 		<header>
@@ -23,7 +25,12 @@ class HeaderComponent extends Component {
 					<li className="nav-link"><Link to="/about">About</Link></li>
 				</ul>
 				<ul className="navbar-nav navbar-collapse justify-content-end">
-					<li className="nav-link"><Link to="/login">Log In</Link></li>
+					{isUserLoggedIn && <li className="nav-link"><Link to="/userCart">MyCart</Link></li>}
+					{isUserLoggedIn && <li className="nav-link"><Link to="/trackorder">Track orders</Link></li>}
+					{isUserLoggedIn && <li className="nav-link"><Link to="/previouspurchase">Previous purchases</Link></li>}
+					{isUserLoggedIn && <li className="nav-link"><Link to="/changeaddress">Update Address</Link></li>}
+					{!isUserLoggedIn && <li className="nav-link"><Link to="/login">Log In</Link></li>}
+					{isUserLoggedIn && <li className="nav-link"><Link to="/logout" onClick={UserAPI.registerLogout}>Logout</Link></li>}
 				</ul>
 			</nav>
 		</header>

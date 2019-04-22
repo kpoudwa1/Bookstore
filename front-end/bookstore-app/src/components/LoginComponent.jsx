@@ -25,43 +25,43 @@ class LoginComponent extends Component {
 	  let { email, password } = this.state
     return (
       <div className="LoginComponent">
-		{this.state.loginFailed && <div><h3><font color="red">Invalid Credentials !</font></h3></div>}
 		{this.state.loginSuccess && <div><h3><font color="green">Login successful !</font></h3></div>}
 		<center>
 			<div><a href="/" className="navbar-brand"><img alt="Turn the page" src={Logo} width="150" height="150"/></a></div>
+			{this.state.loginFailed && <div><h4><font color="red">Invalid Credentials !</font></h4></div>}
 			<div className="container">
-                    <Formik
-                        initialValues={{ email, password }}
-                        onSubmit={this.logUser}
-                        validateOnChange={false}
-                        validate={this.validate}
-                        enableReinitialize={true}
-                    >
-                        {
-                            (props) => (
-                                <Form>
-                                    <ErrorMessage name="email" component="div"
-                                        className="alert alert-warning" />
-                                    <fieldset className="form-group">
-                                        <label>Email</label>
-                                        <Field className="form-control" type="text" name="email" />
-                                    </fieldset>
-									
-									<ErrorMessage name="password" component="div"
-                                        className="alert alert-warning" />
-                                    <fieldset className="form-group">
-                                        <label>Password</label>
-                                        <Field className="form-control" type="password" name="password" />
-                                    </fieldset>
-									
-                                    <button className="btn btn-success" type="submit">Login</button>
-									<hr style={hrStyle}/>
-									<Link to={"/createAccount"}>New User?</Link>
-                                </Form>
-                            )
-                        }
-                    </Formik>
-                </div>
+                <Formik
+                    initialValues={{ email, password }}
+                    onSubmit={this.logUser}
+                    validateOnChange={false}
+                    validate={this.validate}
+                    enableReinitialize={true}
+                >
+                    {
+                        (props) => (
+                            <Form>
+                                <ErrorMessage name="email" component="div"
+                                    className="alert alert-warning" />
+                                <fieldset className="form-group">
+                                    <label>Email</label>
+                                    <Field className="form-control" type="text" name="email" />
+                                </fieldset>
+					
+					<ErrorMessage name="password" component="div"
+                                    className="alert alert-warning" />
+                                <fieldset className="form-group">
+                                    <label>Password</label>
+                                    <Field className="form-control" type="password" name="password" />
+                                </fieldset>
+					
+                                <button className="btn btn-success" type="submit">Login</button>
+					<hr style={hrStyle}/>
+					<Link to={"/createAccount"}>New User?</Link>
+                            </Form>
+                        )
+                    }
+                </Formik>
+            </div>
 		</center>
       </div>
     );
@@ -73,11 +73,11 @@ class LoginComponent extends Component {
 	  console.log(values);
 	  console.log(this.state);
 	  let user = { 
-		email : this.state.email,
-		password : this.state.password
+		email : values.email,
+		password : values.password
 	  }
 	  UserAPI.executeAuthenticateUserAPIService(user)
-		.then(response => this.handleSuccessfulResponse(response))
+		.then(response => this.handleSuccessfulResponse(response, values))
 	    .catch(error => this.handleErrorResponse(error))
 	  console.log(this.state);
   }
@@ -104,9 +104,10 @@ class LoginComponent extends Component {
 	  console.log(this.state);
   }
   
-  handleSuccessfulResponse(response)
+  handleSuccessfulResponse(response, values)
   {
-	  console.log('User logged in successfully')
+	  console.log('User logged in successfully');
+	  UserAPI.registerLogin(values.email)
 	  this.props.history.push("/home")
   }
   

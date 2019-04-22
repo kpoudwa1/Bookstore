@@ -3,6 +3,26 @@ var crypto = require('crypto');
 
 class UserAPI
 {
+	registerLogin(firstName)
+	{
+		sessionStorage.setItem('authenicatedUser', firstName);
+	}
+	
+	registerLogout()
+	{
+		sessionStorage.removeItem('authenicatedUser');
+	}
+	
+	isUserLoggedIn()
+	{
+		let user = sessionStorage.getItem('authenicatedUser');
+		
+		if(user === null)
+			return false
+		else
+			return true
+	}
+	
 	executeCreateUserAPIService(stateData)
 	{
 		console.log('Service executed')
@@ -27,6 +47,30 @@ class UserAPI
 		console.log(user)
 		
 		return axios.post(`http://localhost:8080/user/authenticate/`, user)
+	}
+	
+	executeGetUserDetailsAPIService(email)
+	{
+		console.log('executeGetUserDetailsAPIService')
+		console.log(email)
+		let data = {email : email}
+		
+		console.log(data);
+		
+		return axios.post(`http://localhost:8080/user/userDetails/`, email.toString())
+	}
+	
+	executeGetPreviousPurchasesAPIService(userId)
+	{
+		console.log('executeGetPreviousPurchasesAPIService');
+		console.log(userId);
+		let axiosConfig = {
+		headers: {
+          'Content-Type': 'application/json;charset=UTF-8'
+      }
+    };
+		
+		return axios.post(`http://localhost:8080/user/previouspurchase/`, userId, axiosConfig)
 	}
 }
 

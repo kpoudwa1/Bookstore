@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-import {Link} from 'react-router-dom';
-import SearchAPI from '../api/SearchAPI.js';
+import UserAPI from '../api/UserAPI.js';
 
-class SearchResultComponent extends Component {
+class PreviousPurchasesComponent extends Component {
 	constructor(props)
 	{
 		super(props)
 		this.state = {
-			books : []
+			previousPurchases : []
 		}
 		this.handleSuccessfulResponse = this.handleSuccessfulResponse.bind(this)
 		this.handleErrorResponse = this.handleErrorResponse.bind(this)
@@ -15,34 +14,39 @@ class SearchResultComponent extends Component {
 	
   render() {
     return (
-      <div className="SearchResultComponent">
-		<label><h2>Results...</h2></label>
-		<hr style={hrStyle}/>
+      <div className="PreviousPurchasesComponent">
+	  <label><h2>Previous Purchases...</h2></label>
+	  <hr style={hrStyle}/>
+	  <center>
 		<table style={tableStyle} className="table">
+			<thead>
+				<tr>
+					<th>Book</th>
+					<th>Quantity</th>
+					<th>Order Date</th>
+				</tr>
+			</thead>
 			<tbody>
 				{
-					this.state.books.map(book => 
-							<tr key={book.id}>
-								<td style={imageWidth}><img alt="{book.title}" width="70px" src={'data:image/jpeg;base64,' + book.image}/></td>
-								<td style={padding} align="left"><Link to={"/bookdetails/" + book.id}>{book.title}</Link></td>
+					this.state.previousPurchases.map(previous => 
+							<tr key={previous.title}>
+								<td style={imageWidth}><img alt="{previous.title}" width="70px" src={'data:image/jpeg;base64,' + previous.image}/></td>
+								<td>{previous.quantity}</td>
+								<td>{previous.orderDate}</td>
+								
 							</tr>
 					)
 				}
 			</tbody>
 		</table>
+	  </center>
       </div>
     );
   }
   
-  handleLoad()
-  {
-	  console.log('On load')
-  }
-  
   componentDidMount()
   {
-    console.log(`GrandChild did mount. ${this.props.match.params.title}`);
-	SearchAPI.executeSearchAPIService(this.props.match.params.title)
+	UserAPI.executeGetPreviousPurchasesAPIService(20)
 	.then(response => this.handleSuccessfulResponse(response))
 	.catch(error => this.handleErrorResponse(error))
   }
@@ -51,10 +55,9 @@ class SearchResultComponent extends Component {
   {
 	  console.log(response.data)
 	  this.setState({
-		  books: response.data
+		  previousPurchases: response.data
 	  })
-	  console.log('Books:::::::::')
-	  //console.log(this.state.books[0][2])
+	  console.log('Books::::::::: ' + this.state.previousPurchases[0])
   }
   
   handleErrorResponse(error)
@@ -78,23 +81,18 @@ class SearchResultComponent extends Component {
 
 var tableStyle = 
 {
-	width: '90%'
+	width: '60%'
 }
-var padding = 
-{
-	padding: '15px',
-}
-var imageWidth =
-{
-	width: '70px',
-	paddingLeft: '15px'
-}
-
 const hrStyle = {
   border: 'none',
     height: '1px',
     color: '#333',
     backgroundColor: '#333'
 };
+var imageWidth =
+{
+	width: '70px',
+	paddingLeft: '15px'
+}
 
-export default SearchResultComponent;
+export default PreviousPurchasesComponent;

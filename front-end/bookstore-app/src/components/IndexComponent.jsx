@@ -10,6 +10,12 @@ import SearchComponent from './SearchComponent';
 import SearchResultComponent from './SearchResultComponent';
 import BookDetailsComponent from './BookDetailsComponent';
 import CreateAccountComponent from './CreateAccountComponent';
+import LogoutComponent from './LogoutComponent';
+import CartComponent from './CartComponent';
+import TrackOrderComponent from './TrackOrderComponent';
+import PreviousPurchasesComponent from './PreviousPurchasesComponent';
+import UpdateAddressComponent from './UpdateAddressComponent';
+import AuthenticatedRoute from './AuthenticatedRoute';
 
 class IndexComponent extends Component {
 	constructor()
@@ -29,12 +35,17 @@ class IndexComponent extends Component {
 					<Switch>
 						<Route path="/" exact component={SearchComponent}/>
 						<Route path="/login" component={LoginComponent}/>
+						<Route path="/logout" component={LogoutComponent}/>
 						<Route path="/dealstoday" component={DealsTodayComponent}/>
 						<Route path="/about" component={AboutComponent}/>
 						<Route path="/home" component={UserHomeComponent}/>
 						<Route path="/search/:title" component={SearchResultComponent}/>
 						<Route path="/bookdetails/:id" component={BookDetailsComponent}/>
 						<Route path="/createAccount" component={CreateAccountComponent}/>
+						<AuthenticatedRoute path="/userCart" component={CartComponent}/>
+						<AuthenticatedRoute path="/trackorder" component={TrackOrderComponent}/>
+						<AuthenticatedRoute path="/previouspurchase" component={PreviousPurchasesComponent}/>
+						<AuthenticatedRoute path="/changeaddress" component={UpdateAddressComponent}/>
 						<Route path="/error" component={ErrorComponent}/>
 						<Route component={ErrorComponent}/>
 					</Switch>

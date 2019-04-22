@@ -140,7 +140,7 @@ class CreateAccountComponent extends Component {
     );
   }
   
-  createUser()
+  createUser(values)
   {
 	  console.log('Create the user');
 	  if(this.state.password === this.state.repassword)
@@ -148,16 +148,16 @@ class CreateAccountComponent extends Component {
 	  else
 		  console.log('Passwords do not match')
 	  let user = { 
-		firstName : this.state.firstName,
-		lastName : this.state.lastName,
-		dob : this.state.dob,
-		gender : this.state.gender,
-		email : this.state.email,
-		password : this.state.password,
-		addressline1 : this.state.addressline1,
-		addressline2 : this.state.addressline2,
-		city : this.state.city,
-		pin : this.state.pin
+		firstName : values.firstName,
+		lastName : values.lastName,
+		dob : values.dob,
+		gender : values.gender,
+		email : values.email,
+		password : values.password,
+		addressline1 : values.addressline1,
+		addressline2 : values.addressline2,
+		city : values.state.city,
+		pin : values.state.pin
 	  }
 	  UserAPI.executeCreateUserAPIService(user)
 		.then(response => this.handleSuccessfulResponse(response))
