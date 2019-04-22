@@ -1,21 +1,80 @@
 import React, { Component } from 'react';
 import UserAPI from '../api/UserAPI.js';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
 
 class UpdateAddressComponent extends Component {
   constructor(props)
   {
 		super(props)
 		this.state = {
-			books : []
+			user : {}
 		}
 		this.handleSuccessfulResponse = this.handleSuccessfulResponse.bind(this)
 		this.handleErrorResponse = this.handleErrorResponse.bind(this)
+		this.validate = this.validate.bind(this)
+		this.updateAddress = this.updateAddress.bind(this)
+		this.handleSuccessfulResponse1 = this.handleSuccessfulResponse1.bind(this)
   }
 	
   render() {
+	  let { addressline1, addressline2, city, state, pin } = this.state.user;
     return (
       <div className="UpdateAddressComponent">
-	  <h1>TODO : Implement Update Address Component</h1>
+	  <center>
+			<div className="container">
+                    <Formik
+                        initialValues={{ addressline1, addressline2, city, state, pin }}
+                        onSubmit={this.updateAddress}
+                        validateOnChange={false}
+						validateOnBlur={false}
+                        validate={this.validate}
+                        enableReinitialize={true}
+                    >
+                        {
+                            (props) => (
+                                <Form>
+									<ErrorMessage name="addressline1" component="div"
+                                        className="alert alert-warning" />
+                                    <fieldset className="form-group">
+                                        <label>Address line 1</label>
+                                        <Field className="form-control" type="text" name="addressline1" />
+                                    </fieldset>
+									
+									<ErrorMessage name="addressline2" component="div"
+                                        className="alert alert-warning" />
+                                    <fieldset className="form-group">
+                                        <label>Address line 2</label>
+                                        <Field className="form-control" type="text" name="addressline2" />
+                                    </fieldset>
+									
+									<ErrorMessage name="city" component="div"
+                                        className="alert alert-warning" />
+                                    <fieldset className="form-group">
+                                        <label>City</label>
+                                        <Field className="form-control" type="text" name="city" />
+                                    </fieldset>
+									
+									<ErrorMessage name="state" component="div"
+                                        className="alert alert-warning" />
+                                    <fieldset className="form-group">
+                                        <label>State</label>
+                                        <Field className="form-control" type="text" name="state" />
+                                    </fieldset>
+									
+									<ErrorMessage name="pin" component="div"
+                                        className="alert alert-warning" />
+                                    <fieldset className="form-group">
+                                        <label>Pin code</label>
+                                        <Field className="form-control" type="text" name="pin" />
+                                    </fieldset>
+									
+                                    <button className="btn btn-success" type="submit">Update Address</button>
+                                </Form>
+                            )
+                        }
+                    </Formik>
+                </div>
+		</center>
       </div>
     );
   }
@@ -27,10 +86,64 @@ class UpdateAddressComponent extends Component {
 	.catch(error => this.handleErrorResponse(error))
   }
   
+  validate(values)
+  {
+		console.log(values);
+		let errors = {};
+		let message = 'This field is mandatory';
+		
+		if(!values.addressline1)
+			errors.addressline1 = message;
+		if(!values.city)
+			errors.city = message;
+		if(!values.state)
+			errors.state = message;
+		if(!values.pin)
+			errors.pin = message;
+		
+		return errors;
+  }
+  
+  updateAddress(values)
+  {
+	  console.log('update the user');
+	  console.log(values);
+	  
+	  let user = {
+		id: this.state.user.id,
+		addressline1 : values.addressline1,
+		addressline2 : values.addressline2,
+		city : values.city,
+		state : values.state,
+		pin : values.pin
+	  }
+	  UserAPI.executeupdateAddressAPIService(user)
+		.then(response => this.handleSuccessfulResponse(response))
+  }
+  
+  handleSuccessfulResponse1(response)
+  {
+	  console.log(response.data)
+  }
+  
   handleSuccessfulResponse(response)
   {
 	  console.log(response.data)
-	  console.log('Books:::::::::')
+	  let userData = response.data;
+	  
+	  let user = {
+		  id : userData.id,
+		  addressline1 : userData.addressline1,
+		  addressline2 : userData.addressline2,
+		  city : userData.city,
+		  state : userData.state,
+		  pin : userData.pin
+	  }
+	  
+	  this.setState({
+		  user
+	  })
+	  console.log('User:::::::::' + user)
   }
   
   handleErrorResponse(error)

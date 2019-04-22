@@ -61,15 +61,48 @@ public class UserController
 		return ResponseEntity.ok().build();
 	}
 	
+	/**
+	 * Function for getting the address projections for a person
+	 * @param email
+	 * @return
+	 */
 	//TODO Service for updating user details
 	@PostMapping("/userDetails/")
-	public User getUserDetails(@RequestBody String email)
+	public UserProjection getUserDetails(@RequestBody String email)
 	{
 		log.info("EMAIL:>>>>>>>>>>>>>>>>>>>>> " + email);
 		log.info("Info received: " + userRepo.findOneByEmail(email));
 		return userRepo.findOneByEmail(email);
 	}
 	
+	@PostMapping("/updateAddress/")
+	public void updateUserAddress(@RequestBody User user)
+	{
+		log.info("User ::::::::::::::::::  " + user);
+		Optional<User> dbUser = userRepo.findById(user.getId());
+
+		if(dbUser.isPresent())
+		{
+			User temp = dbUser.get();
+			temp.setAddressline1(user.getAddressline1());
+			temp.setAddressline2(user.getAddressline2());
+			temp.setCity(user.getCity());
+			temp.setState(user.getState());
+			temp.setPin(user.getPin());
+			userRepo.save(temp);
+			
+			log.info("Address updated successfully");
+		}
+		
+		//TODO THROW USER NOT FOUND
+		log.info("Info received: " + userRepo.findById(user.getId()));
+	}
+	
+	/**
+	 * Function for getting the previous purchase history for a user.
+	 * @param userId
+	 * @return
+	 */
 	@PostMapping("/previouspurchase/")
 	public List<PurchaseHistory> getPreviousPurchases(@RequestBody int userId)
 	{

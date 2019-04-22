@@ -56,8 +56,13 @@ class UserAPI
 		let data = {email : email}
 		
 		console.log(data);
+		let axiosConfig = {
+		headers: {
+          'Content-Type': 'application/json;charset=UTF-8'
+      }
+    };
 		
-		return axios.post(`http://localhost:8080/user/userDetails/`, email.toString())
+		return axios.post(`http://localhost:8080/user/userDetails/`, email, axiosConfig)
 	}
 	
 	executeGetPreviousPurchasesAPIService(userId)
@@ -71,6 +76,14 @@ class UserAPI
     };
 		
 		return axios.post(`http://localhost:8080/user/previouspurchase/`, userId, axiosConfig)
+	}
+	
+	executeupdateAddressAPIService(user)
+	{
+		console.log('executeupdateAddressAPIService')
+		console.log(user)
+		
+		return axios.post(`http://localhost:8080/user/updateAddress/`, user)
 	}
 }
 
