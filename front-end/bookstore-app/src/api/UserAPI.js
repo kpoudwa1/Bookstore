@@ -1,16 +1,21 @@
 import axios from 'axios'
+import SearchAPI from '../api/SearchAPI.js';
 var crypto = require('crypto'); 
 
 class UserAPI
 {
-	registerLogin(firstName)
+	registerLogin(firstName, email)
 	{
+		console.log('###################################################################################');
 		sessionStorage.setItem('authenicatedUser', firstName);
+		sessionStorage.setItem('authenicatedEmail', email);
 	}
 	
 	registerLogout()
 	{
 		sessionStorage.removeItem('authenicatedUser');
+		sessionStorage.removeItem('cart');
+		sessionStorage.clear();
 	}
 	
 	isUserLoggedIn()
@@ -21,6 +26,55 @@ class UserAPI
 			return false
 		else
 			return true
+	}
+	
+	addItem(itemId, quantity)
+	{
+		sessionStorage.setItem(itemId, quantity);
+	}
+	
+	getUserName()
+	{
+		return sessionStorage.getItem('authenicatedUser');
+	}
+	
+	async displayCart()
+	{
+		console.log('Getting the cart details');
+		let arr = Object.keys(sessionStorage);
+		console.log(arr)
+		let index = arr.indexOf('authenicatedUser');
+		console.log('INDEX: ' + index);
+		if (index > -1)
+		{
+			arr.splice(index, 1);
+		}
+		console.log(arr)
+		
+		console.log('loop IN USER API');
+		let cartItems = [];
+		
+		
+		for (var i = 0; i < arr.length; i++) {
+		let quantity = sessionStorage.getItem(arr[i]);
+        console.log('AAAAAAAAAAAAAAAAAAAAAAA' + arr[i] + ' :: ' + sessionStorage.getItem(arr[i]));
+		let dbData = await SearchAPI.executeSearchByIdAPIService(arr[i])
+		
+		let cartItem = {
+		  id: dbData.data.id,
+		  image: dbData.data.image,
+		  quantity: quantity
+	  }
+		
+		cartItems.push(cartItem);
+		//console.log('CART ITEM IN LOOP: ' + JSON.stringify(cartItem));
+    }
+		//console.log('CART ITEM IN LOOP: ' + JSON.stringify(cartItems));
+		
+		
+		
+		
+		return cartItems;
 	}
 	
 	executeCreateUserAPIService(stateData)

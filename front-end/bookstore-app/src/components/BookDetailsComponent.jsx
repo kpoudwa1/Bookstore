@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import SearchAPI from '../api/SearchAPI.js';
+import UserAPI from '../api/UserAPI.js';
 
 class BookDetailsComponent extends Component {
 	constructor(props)
@@ -150,6 +151,17 @@ class BookDetailsComponent extends Component {
   addToCart(values)
   {
 	  console.log('Check session info and add to cart');
+	  if(!UserAPI.isUserLoggedIn())
+	  {
+		  console.log('User Not found');
+		  this.props.history.push(`/login`)
+	  }
+	  else
+	  {
+		  console.log('User found');
+		  console.log(values);
+		  UserAPI.addItem(values.id, values.quantity);
+	  }
   }
 }
 

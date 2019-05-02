@@ -1,20 +1,17 @@
 import React, { Component } from 'react';
-import UserAPI from '../api/UserAPI.js';
 import Logo from '../logo-white.png';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import {Link} from 'react-router-dom';
+import UserAPI from '../api/UserAPI.js';
+import SearchAPI from '../api/SearchAPI.js';
 
-class LoginComponent extends Component {
+class CartComponent extends Component {
 	constructor(props)
 	{
 		super(props)
 		this.state = {
-			email : '',
-			password : '',
-			loginFailed : false,
-			loginSuccess : false
+			cartItems : []
 		}
-		this.logUser = this.logUser.bind(this)
 		this.createAccount = this.createAccount.bind(this)
 		this.handleSuccessfulResponse = this.handleSuccessfulResponse.bind(this)
 		this.handleErrorResponse = this.handleErrorResponse.bind(this)
@@ -22,27 +19,54 @@ class LoginComponent extends Component {
 	}
 	
   render() {
-	  let { email, password } = this.state
     return (
-      <div className="LoginComponent">
+      <div className="CartComponent">
 	  <h1>Simple Cart</h1>
+	  <hr style={hrStyle}/>
+	  <center>
+		<table style={tableStyle} className="table">
+			<thead>
+				<tr>
+					<th>Item</th>
+					<th>Quantity</th>
+				</tr>
+			</thead>
+			<tbody>
+				{
+					this.state.cartItems.map(cartItem => 
+							<tr key={cartItem.id}>
+								<td style={imageWidth}><img width="70px" src={'data:image/jpeg;base64,' + cartItem.image}/></td>
+								<td>{cartItem.quantity}</td>
+							</tr>
+					)
+				}
+			</tbody>
+		</table>
+	  </center>
       </div>
     );
   }
   
-  logUser(values)
+  async componentDidMount()
   {
-	  console.log('Log the user');
-	  console.log(values);
-	  console.log(this.state);
-	  let user = { 
-		email : this.state.email,
-		password : this.state.password
-	  }
-	  UserAPI.executeAuthenticateUserAPIService(user)
-		.then(response => this.handleSuccessfulResponse(response))
-	    .catch(error => this.handleErrorResponse(error))
-	  console.log(this.state);
+    console.log(`GrandChild did mount. ${this.props.match.params.title}`);
+	let arr = await UserAPI.displayCart()
+	console.log('ARRAY:::::::: ' + arr);
+	let cartItems = [];
+	this.setState({
+		  cartItems: arr
+	  })
+	/*for (var i = 0; i < arr.length; i++) {
+		let quantity = sessionStorage.getItem(arr[i]);
+        console.log('AAAAAAAAAAAAAAAAAAAAAAA' + arr[i] + ' :: ' + sessionStorage.getItem(arr[i]));
+		let cartItem = SearchAPI.executeSearchByIdAPIService(arr[i])
+		.then(response => this.handleSuccessfulResponse(response, quantity))
+		.catch(error => this.handleErrorResponse(error))
+		
+		console.log('CART ITEM IN LOOP: ' + JSON.stringify(cartItem));
+    }*/
+	//.then(response => this.handleSuccessfulResponse(response))
+	//.catch(error => this.handleErrorResponse(error))
   }
   
   validate(values)
@@ -67,10 +91,17 @@ class LoginComponent extends Component {
 	  console.log(this.state);
   }
   
-  handleSuccessfulResponse(response)
+  handleSuccessfulResponse(response, quantity)
   {
-	  console.log('User logged in successfully')
-	  this.props.history.push("/home")
+	  console.log('Cart item' + quantity);
+	  console.log(response.data);
+	  let cartItem = {
+		  image: response.data.image,
+		  quantity: quantity
+	  }
+	  
+	  return cartItem;
+	  //console.log('Single item' + JSON.stringify(cartItem));
   }
   
   handleErrorResponse(error)
@@ -92,4 +123,14 @@ const hrStyle = {
     backgroundColor: '#333'
 };
 
-export default LoginComponent;
+var tableStyle = 
+{
+	width: '50%'
+}
+
+var imageWidth =
+{
+	width: '70px',
+	paddingLeft: '15px'
+}
+export default CartComponent;

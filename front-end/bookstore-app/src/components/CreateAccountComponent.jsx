@@ -18,10 +18,13 @@ class CreateAccountComponent extends Component {
 			addressline2 : '',
 			city : '',
 			state : '',
-			pin : ''
+			pin : '',
+			createFailed : false,
+			createFailedMessage : ''
 		}
 		this.validate = this.validate.bind(this)
 		this.createUser = this.createUser.bind(this)
+		this.handleErrorResponse = this.handleErrorResponse.bind(this)
 	}
   
   render() {
@@ -29,6 +32,7 @@ class CreateAccountComponent extends Component {
     return (
       <div className="CreateAccountComponent">
 		<center>
+			{this.state.createFailed && <div><font className="alert alert-warning">User Already Exists !</font><br/><br/></div>}
 			<div className="container">
                     <Formik
                         initialValues={{ firstName, lastName, dob, gender, email, password, repassword, addressline1, addressline2, city, state, pin }}
@@ -143,10 +147,6 @@ class CreateAccountComponent extends Component {
   createUser(values)
   {
 	  console.log('Create the user');
-	  if(this.state.password === this.state.repassword)
-		  console.log('Passwords match')
-	  else
-		  console.log('Passwords do not match')
 	  let user = { 
 		firstName : values.firstName,
 		lastName : values.lastName,
@@ -160,7 +160,8 @@ class CreateAccountComponent extends Component {
 		pin : values.state.pin
 	  }
 	  UserAPI.executeCreateUserAPIService(user)
-		.then(response => this.handleSuccessfulResponse(response))
+		.then(response => this.handleSuccessfulResponse(response, values))
+		.catch(error => this.handleErrorResponse(error))
   }
   
   validate(values)
@@ -200,9 +201,19 @@ class CreateAccountComponent extends Component {
 		return errors;
   }
   
-  handleSuccessfulResponse(response)
+  handleSuccessfulResponse(response, values)
   {
 	  console.log('User created successfully')
+	  UserAPI.registerLogin(values.firstName, values.email)
+	  this.props.history.push("/home")
+  }
+  
+  handleErrorResponse(error)
+  {
+	  console.log(error.status + 'AAAAAAAAAAAA')
+	  this.setState({
+			createFailed : true
+		})
   }
 }
 

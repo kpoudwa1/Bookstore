@@ -43,6 +43,27 @@ public class BookstoreController
 	}
 	
 	/** 
+	 * Function for searching whether a book exists in the repository
+	 *  on the basis of title.
+	 * @param title The title for the book which is to be checked.
+	 * @return Returns a projection list of book id, name and image.
+	 * @exception BookNotFoundException Returns an exception when the
+	 *  book does not exists in the repository.
+	 */
+	
+	@GetMapping("/book/{id}")
+	public Optional<Book> getBookById(@PathVariable int id)
+	{
+		log.info("Searching for the book with id '" + id + "'");
+		
+		Optional<Book> book = bookRepo.findById(id);
+		if(!book.isPresent())
+			throw new BookNotFoundException("Sorry! The book with the id '" + id + "' cannot be found");
+		
+		return book;
+	}
+	
+	/** 
 	 * Function for getting the details of a book on the basis of id.
 	 * @param id The id for the book for which details have to be
 	 *  fetched.

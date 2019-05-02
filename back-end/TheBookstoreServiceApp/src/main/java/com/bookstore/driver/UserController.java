@@ -3,6 +3,7 @@ package com.bookstore.driver;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bookstore.exceptions.UserAlreadyExists;
 import com.bookstore.exceptions.UserNotFoundException;
 
 @RestController
@@ -34,6 +36,12 @@ public class UserController
 		log.info("Create user service called !!!!!!!!!!!!!!!!!!!!!!");
 		log.info(user);
 		
+		//Validation if email already exists
+		UserProjection existsUser = userRepo.findOneByEmail(user.getEmail());
+		
+		if(existsUser != null)
+			throw new UserAlreadyExists("User id with email " + user.getEmail() + " already exists !");
+		
 		//Handling the date issue
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(user.getDob());
@@ -48,7 +56,7 @@ public class UserController
 	
 	//TODO create service for login
 	@PostMapping("/authenticate/")
-	public ResponseEntity<Void> authenticate(@RequestBody User user)
+	public ResponseEntity<UserInfo> authenticate(@RequestBody User user)
 	{
 		log.info("Info received: " + user);
 		Optional<User> authUser = userRepo.findOneByEmailAndPassword(user.getEmail(), user.getPassword());
@@ -58,7 +66,12 @@ public class UserController
 		if(!authUser.isPresent())
 			throw new UserNotFoundException("Invalid credentials");
 		
-		return ResponseEntity.ok().build();
+		UserInfo userinfo = new UserInfo();
+		userinfo.setEmail(authUser.get().getEmail());
+		userinfo.setFirstName(authUser.get().getFirstName());
+		
+		//return ResponseEntity.ok().build();
+		return ResponseEntity.ok(userinfo);
 	}
 	
 	/**
@@ -123,6 +136,22 @@ public class UserController
 		log.info(purchasesList);
 		
 		return purchasesList;
+	}
+	
+	@PostMapping("/testMethod/")
+	public OrderRequest testMethod()
+	{
+		OrderRequest test = new OrderRequest();
+		test.setUserId(20);
+		HashMap<Integer, Integer> testMap = new HashMap<Integer, Integer>();
+		testMap.put(1, 5);
+		testMap.put(2, 8);
+		testMap.put(20, 4);
+		testMap.put(15, 1);
+		test.setItems(testMap);
+		
+		log.info(test);
+		return test;
 	}
 	
 }
