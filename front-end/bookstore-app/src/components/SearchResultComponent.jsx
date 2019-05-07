@@ -16,20 +16,21 @@ class SearchResultComponent extends Component {
   render() {
     return (
       <div className="SearchResultComponent">
-		<label><h2>Results...</h2></label>
-		<hr style={hrStyle}/>
-		<table style={tableStyle} className="table">
+		<label><h2>Displaying the results...</h2></label>
+		<center>
+			<table style={tableStyle} className="table">
 			<tbody>
 				{
 					this.state.books.map(book => 
 							<tr key={book.id}>
-								<td style={imageWidth}><img alt="{book.title}" width="70px" src={'data:image/jpeg;base64,' + book.image}/></td>
-								<td style={padding} align="left"><Link to={"/bookdetails/" + book.id}>{book.title}</Link></td>
+								<td style={imageWidth}><img alt="{book.title}" width="100px" src={'data:image/jpeg;base64,' + book.image}/></td>
+								<td style={padding} align="left"><Link to={"/bookdetails/" + book.id}><h5>{book.title}</h5></Link></td>
 							</tr>
 					)
 				}
 			</tbody>
 		</table>
+		</center>
       </div>
     );
   }
@@ -78,11 +79,12 @@ class SearchResultComponent extends Component {
 
 var tableStyle = 
 {
-	width: '90%'
+	width: '50%'
 }
 var padding = 
 {
 	padding: '15px',
+	paddingLeft: '55px'
 }
 var imageWidth =
 {

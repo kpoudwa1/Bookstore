@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
 import Logo from '../logo-dark.png';
 import UserAPI from '../api/UserAPI.js';
+import { withRouter } from 'react-router-dom'
 
 class HeaderComponent extends Component {
 	constructor(props)
@@ -44,4 +45,4 @@ class HeaderComponent extends Component {
   }
 }
 
-export default HeaderComponent;
+export default withRouter(HeaderComponent);

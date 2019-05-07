@@ -22,10 +22,14 @@ class UserAPI
 	{
 		let user = sessionStorage.getItem('authenicatedUser');
 		
-		if(user === null)
+		if(user  === null)
+			return false
+		return true
+		
+		/*if(user === null)
 			return false
 		else
-			return true
+			return true*/
 	}
 	
 	addItem(itemId, quantity)
@@ -41,6 +45,22 @@ class UserAPI
 	getEmail()
 	{
 		return sessionStorage.getItem('authenicatedEmail');
+	}
+	
+	emptyCart()
+	{
+		let arr = Object.keys(sessionStorage);
+		
+		let index = arr.indexOf('authenicatedUser');
+		if (index > -1)
+			arr.splice(index, 1);
+		
+		index = arr.indexOf('authenicatedEmail');
+		if (index > -1)
+			arr.splice(index, 1);
+		
+		for(var i = 0; i < arr.length; i++)
+			sessionStorage.removeItem(arr[i]);
 	}
 	
 	async displayCart()
@@ -67,7 +87,7 @@ class UserAPI
 		let cartItems = [];
 		
 		
-		for (var i = 0; i < arr.length; i++) {
+		for(var i = 0; i < arr.length; i++) {
 		let quantity = sessionStorage.getItem(arr[i]);
         console.log('AAAAAAAAAAAAAAAAAAAAAAA' + arr[i] + ' :: ' + sessionStorage.getItem(arr[i]));
 		let dbData = await SearchAPI.executeSearchByIdAPIService(arr[i])

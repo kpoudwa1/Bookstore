@@ -9,7 +9,8 @@ class BookDetailsComponent extends Component {
 		super(props)
 		this.state = {
 			book : {},
-			quantity : 0
+			quantity : 0,
+			itemAdded : false
 		}
 		this.handleSuccessfulResponse = this.handleSuccessfulResponse.bind(this)
 		this.handleErrorResponse = this.handleErrorResponse.bind(this)
@@ -22,10 +23,11 @@ class BookDetailsComponent extends Component {
 	let quantity = this.state.quantity;
     return (
       <div className="BookDetailsComponent">
+	  <br/>
 		<table style={tableStyle}>
 			<tbody>
 			<tr key={this.state.book.id}>
-				<td style={padding}>
+				<td style={paddingImage}>
 					<img width="250px" alt="{this.state.book.title}" src={'data:image/jpeg;base64,' + this.state.book.image}/>
 				</td>
 				<td style={padding}>
@@ -56,6 +58,7 @@ class BookDetailsComponent extends Component {
                     {
                         (props) => (
                             <Form>
+								{this.state.itemAdded && <div><br/><font className="alert alert-success">Item added to cart !</font><br/><br/></div>}
                                 <ErrorMessage name="quantity" component="div"
                                     className="alert alert-warning" />
 								<fieldset className="form-group">
@@ -97,7 +100,8 @@ class BookDetailsComponent extends Component {
 	  console.log(response)
 	  let bookDetails = response.data;
 	  let authors = bookDetails.authors.map(a => " " + a.authorName);
-	  authors = authors.toString().substring(0, authors.toString().length - 1);
+	  if(authors.toString().endsWith(','))
+		authors = authors.toString().substring(0, authors.toString().length - 1);
 	  	  
 	  let book = {
 		  id : bookDetails.id,
@@ -162,6 +166,9 @@ class BookDetailsComponent extends Component {
 		  console.log('User found');
 		  console.log(values);
 		  UserAPI.addItem(values.id, values.quantity);
+		  this.setState({
+			itemAdded : true
+		})
 	  }
   }
 }
@@ -170,6 +177,11 @@ var tableStyle =
 {
 	width: '90%'
 }
+var paddingImage = 
+{
+	paddingLeft: '55px'
+}
+
 var padding = 
 {
 	padding: '15px'

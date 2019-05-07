@@ -6,7 +6,8 @@ class TrackOrderComponent extends Component {
 	{
 		super(props)
 		this.state = {
-			orders : []
+			orders : [],
+			hasNoOrders: false
 		}
 		this.handleSuccessfulResponse = this.handleSuccessfulResponse.bind(this)
 		this.handleErrorResponse = this.handleErrorResponse.bind(this)
@@ -15,13 +16,12 @@ class TrackOrderComponent extends Component {
   render() {
     return (
       <div className="TrackOrderComponent">
-	  <h1>TODO : Implement Track Order Component</h1>
-		<center>
+		<h2>Your orders,</h2>
+		{this.state.hasNoOrders && <div><br/><font className="alert alert-primary">No pending orders</font><br/><br/></div>}
+		{!this.state.hasNoOrders && <div>
+			<center>
 			<table style={tableStyle} className="table">
 			<thead>
-				<col width="130"/>
-				<col width="180"/>
-				<col width="80"/>
 				<tr>
 					<td>Book</td>
 					<td>Status</td>
@@ -41,6 +41,7 @@ class TrackOrderComponent extends Component {
 			</tbody>
 		</table>
 		</center>
+		</div>}
       </div>
     );
   }
@@ -61,6 +62,13 @@ class TrackOrderComponent extends Component {
 	  this.setState({
 		  orders : response.data
 	  })
+	  
+	  if(response.data.length == 0)
+	  {
+		this.setState({
+		  hasNoOrders: true
+		})
+	  }
   }
   
   handleErrorResponse(error)

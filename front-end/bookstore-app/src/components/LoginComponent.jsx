@@ -28,7 +28,7 @@ class LoginComponent extends Component {
 		{this.state.loginSuccess && <div><h3><font color="green">Login successful !</font></h3></div>}
 		<center>
 			<div><a href="/" className="navbar-brand"><img alt="Turn the page" src={Logo} width="150" height="150"/></a></div>
-			{this.state.loginFailed && <div><font className="alert alert-warning">Invalid Credentials !</font><br/><br/></div>}
+			{this.state.loginFailed && <div><br/><font className="alert alert-danger">Invalid Credentials !</font><br/><br/></div>}
 			<div className="container">
                 <Formik
                     initialValues={{ email, password }}

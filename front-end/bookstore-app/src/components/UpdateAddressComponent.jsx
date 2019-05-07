@@ -7,9 +7,11 @@ class UpdateAddressComponent extends Component {
   {
 		super(props)
 		this.state = {
-			user : {}
+			user : {},
+			isAddressUpdated : false
 		}
 		this.handleSuccessfulResponse = this.handleSuccessfulResponse.bind(this)
+		this.handleSuccessfulResponse2 = this.handleSuccessfulResponse2.bind(this)
 		this.handleErrorResponse = this.handleErrorResponse.bind(this)
 		this.validate = this.validate.bind(this)
 		this.updateAddress = this.updateAddress.bind(this)
@@ -20,6 +22,8 @@ class UpdateAddressComponent extends Component {
 	  let { addressline1, addressline2, city, state, pin } = this.state.user;
     return (
       <div className="UpdateAddressComponent">
+	  <br/>
+	  {this.state.isAddressUpdated && <div><br/><font className="alert alert-success">Your address has been updated !</font><br/><br/></div>}
 	  <center>
 			<div className="container">
                     <Formik
@@ -118,12 +122,19 @@ class UpdateAddressComponent extends Component {
 		pin : values.pin
 	  }
 	  UserAPI.executeupdateAddressAPIService(user)
-		.then(response => this.handleSuccessfulResponse(response))
+		.then(response => this.handleSuccessfulResponse2(response))
   }
   
   handleSuccessfulResponse1(response)
   {
 	  console.log(response.data)
+  }
+  
+  handleSuccessfulResponse2(response)
+  {
+	  this.setState({
+		  isAddressUpdated: true
+	  })
   }
   
   handleSuccessfulResponse(response)

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Logo from '../logo-white.png';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import {Link} from 'react-router-dom';
 import UserAPI from '../api/UserAPI.js';
@@ -10,11 +9,11 @@ class CartComponent extends Component {
 	{
 		super(props)
 		this.state = {
-			cartItems : []
+			cartItems : [],
+			isCartEmpty : false,
+			isOrderPlaced : false
 		}
 		this.buyItems = this.buyItems.bind(this)
-		
-		this.createAccount = this.createAccount.bind(this)
 		this.handleSuccessfulResponse = this.handleSuccessfulResponse.bind(this)
 		this.handleErrorResponse = this.handleErrorResponse.bind(this)
 		this.validate = this.validate.bind(this)
@@ -24,9 +23,11 @@ class CartComponent extends Component {
 	let { cartItems } = this.state
     return (
       <div className="CartComponent">
-	  <h1>Simple Cart</h1>
-	  <hr style={hrStyle}/>
-	  <center>
+		<h2>Cart contents...</h2>
+		{this.state.isCartEmpty && <div><br/><font className="alert alert-primary">Cart is empty !</font><br/><br/></div>}
+		{this.state.isOrderPlaced && <div><br/><font className="alert alert-success">Your order has been placed !</font><br/><br/></div>}
+		{!this.state.isCartEmpty && <div>
+			<center>
 		<table style={tableStyle} className="table">
 			<thead>
 				<tr>
@@ -38,7 +39,7 @@ class CartComponent extends Component {
 				{
 					this.state.cartItems.map(cartItem => 
 							<tr key={cartItem.id}>
-								<td style={imageWidth}><img width="70px" src={'data:image/jpeg;base64,' + cartItem.image}/></td>
+								<td style={imageWidth}><img width="100px" src={'data:image/jpeg;base64,' + cartItem.image}/></td>
 								<td>{cartItem.quantity}</td>
 							</tr>
 					)
@@ -60,7 +61,8 @@ class CartComponent extends Component {
                         )
                     }
                 </Formik>
-	  </center>
+			</center>
+		</div>}
       </div>
     );
   }
@@ -70,10 +72,18 @@ class CartComponent extends Component {
     console.log(`GrandChild did mount. ${this.props.match.params.title}`);
 	let arr = await UserAPI.displayCart()
 	console.log('ARRAY:::::::: ' + arr);
-	let cartItems = [];
+	console.log('ARRAY:::::::: ' + arr.length);
+	
 	this.setState({
 		  cartItems: arr
 	  })
+	  
+	if(arr.length == 0)
+	{
+		this.setState({
+		  isCartEmpty: true
+	  })
+	}
 	/*for (var i = 0; i < arr.length; i++) {
 		let quantity = sessionStorage.getItem(arr[i]);
         console.log('AAAAAAAAAAAAAAAAAAAAAAA' + arr[i] + ' :: ' + sessionStorage.getItem(arr[i]));
@@ -126,17 +136,15 @@ class CartComponent extends Component {
 	  return errors;
   }
   
-  createAccount()
-  {
-	  console.log('Create a new account');
-	  console.log(this.state);
-	  this.props.history.push("/createAccount")
-	  console.log(this.state);
-  }
-  
   handleSuccessfulResponse(response, quantity)
   {
 	  console.log('Success');
+	  UserAPI.emptyCart();
+	  this.setState({
+		  cartItems: [],
+		  isOrderPlaced: true
+	  })
+
 	  //console.log('Cart item' + quantity);
 	  //console.log(response.data);
 	  //let cartItem = {
@@ -159,13 +167,6 @@ class CartComponent extends Component {
 		})
   }
 }
-
-const hrStyle = {
-  border: 'none',
-    height: '1px',
-    color: '#333',
-    backgroundColor: '#333'
-};
 
 var tableStyle = 
 {
