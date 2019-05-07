@@ -77,9 +77,18 @@ public class BookstoreController
 		log.info("Getting the details for book with id '" + id + "'");
 		
 		Optional<Book> bookDetails = bookRepo.findById(id);
+		log.info(bookDetails.get().getSummary());
 		if(!bookDetails.isPresent())
 			throw new BookNotFoundException("Sorry! Invalid book id '" + id + "'");
 		
 		return bookDetails;
+	}
+	
+	@GetMapping("/booksByCategory/{id}")
+	public List<BooksListProjection> getbooksByCategory(@PathVariable int id)
+	{
+		log.info("Getting the details for book with category id '" + id + "'");
+		
+		return bookRepo.findByBookCategoryId(id);
 	}
 }

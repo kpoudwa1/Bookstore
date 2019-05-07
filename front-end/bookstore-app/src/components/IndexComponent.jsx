@@ -16,6 +16,7 @@ import TrackOrderComponent from './TrackOrderComponent';
 import PreviousPurchasesComponent from './PreviousPurchasesComponent';
 import UpdateAddressComponent from './UpdateAddressComponent';
 import AuthenticatedRoute from './AuthenticatedRoute';
+import CategoryComponent from './CategoryComponent';
 
 class IndexComponent extends Component {
 	constructor()
@@ -42,6 +43,7 @@ class IndexComponent extends Component {
 						<Route path="/search/:title" component={SearchResultComponent}/>
 						<Route path="/bookdetails/:id" component={BookDetailsComponent}/>
 						<Route path="/createAccount" component={CreateAccountComponent}/>
+						<Route path="/categories" component={CategoryComponent}/>
 						<AuthenticatedRoute path="/userCart" component={CartComponent}/>
 						<AuthenticatedRoute path="/trackorder" component={TrackOrderComponent}/>
 						<AuthenticatedRoute path="/previouspurchase" component={PreviousPurchasesComponent}/>

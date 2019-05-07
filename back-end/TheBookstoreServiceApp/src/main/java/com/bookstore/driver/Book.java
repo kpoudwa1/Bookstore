@@ -24,6 +24,9 @@ public class Book
 	private int id;
 	@Column(name="TITLE")
 	private String title;
+	/*
+	 * @Column(name="CATEGORY_ID") private String categoryId;
+	 */
 	@Column(name="IMAGE")
 	private byte[] image;
 	@Column(name="SUMMARY")
@@ -63,6 +66,13 @@ public class Book
 	{
 		this.title = title;
 	}
+
+	/*
+	 * public String getCategoryId() { return categoryId; }
+	 * 
+	 * public void setCategoryId(String categoryId) { this.categoryId = categoryId;
+	 * }
+	 */
 
 	public BookCategory getBookCategory()
 	{
@@ -110,9 +120,16 @@ public class Book
 		this.authors = authors;
 	}
 
-	@Override
-	public String toString() {
-		return "Book [id=" + id + ", title=" + title + ", image=" + Arrays.toString(image) + ", summary=" + summary
-				+ ", bookCategory=" + bookCategory + ", bookFormat=" + bookFormat + ", authors=" + authors + "]";
-	}
+	/*
+	 * @Override public String toString() { return "Book [id=" + id + ", title=" +
+	 * title + ", categoryId=" + categoryId + ", image=" + Arrays.toString(image) +
+	 * ", summary=" + summary + ", bookCategory=" + bookCategory + ", bookFormat=" +
+	 * bookFormat + ", authors=" + authors + "]"; }
+	 */
+
+	
+	  @Override public String toString()
+	  { 
+		  return "Book [id=" + id + ", title=" + title + ", image=" + Arrays.toString(image) + ", summary=" + summary + ", bookCategory=" + bookCategory + ", bookFormat=" + bookFormat + ", authors=" + authors + "]";
+	  }
 }

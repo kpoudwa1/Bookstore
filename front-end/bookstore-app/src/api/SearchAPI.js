@@ -19,6 +19,12 @@ class SearchAPI
 		console.log('executeSearchByIdAPIService')
 		return axios.get(`http://localhost:8080/bookstore/book/${id}`)
 	}
+	
+	executeBrowseByCategoryAPIService(id)
+	{
+		console.log('executeBrowseByCategoryAPIService')
+		return axios.get(`http://localhost:8080/bookstore/booksByCategory/${id}`)
+	}
 }
 
 export default new SearchAPI();
