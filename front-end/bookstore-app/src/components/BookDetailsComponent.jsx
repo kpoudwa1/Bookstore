@@ -94,6 +94,7 @@ class BookDetailsComponent extends Component {
   
   handleSuccessfulResponse(response)
   {
+	  console.log(response)
 	  let bookDetails = response.data;
 	  let authors = bookDetails.authors.map(a => " " + a.authorName);
 	  authors = authors.toString().substring(0, authors.toString().length - 1);

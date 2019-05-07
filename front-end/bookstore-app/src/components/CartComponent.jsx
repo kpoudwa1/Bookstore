@@ -12,6 +12,8 @@ class CartComponent extends Component {
 		this.state = {
 			cartItems : []
 		}
+		this.buyItems = this.buyItems.bind(this)
+		
 		this.createAccount = this.createAccount.bind(this)
 		this.handleSuccessfulResponse = this.handleSuccessfulResponse.bind(this)
 		this.handleErrorResponse = this.handleErrorResponse.bind(this)
@@ -19,6 +21,7 @@ class CartComponent extends Component {
 	}
 	
   render() {
+	let { cartItems } = this.state
     return (
       <div className="CartComponent">
 	  <h1>Simple Cart</h1>
@@ -42,6 +45,21 @@ class CartComponent extends Component {
 				}
 			</tbody>
 		</table>
+		
+		<Formik
+                    initialValues={{ cartItems }}
+                    onSubmit={this.buyItems}
+                    validateOnChange={false}
+                    enableReinitialize={true}
+                >
+                    {
+                        (props) => (
+                            <Form>
+                                <button className="btn btn-success" type="submit">Buy</button>
+                            </Form>
+                        )
+                    }
+                </Formik>
 	  </center>
       </div>
     );
@@ -69,6 +87,31 @@ class CartComponent extends Component {
 	//.catch(error => this.handleErrorResponse(error))
   }
   
+  buyItems(values)
+  {
+	  console.log('Buy Items !!!!!!!!!!');
+	  console.log(values);
+	  
+	  //let email = UserAPI.getEmail();
+	  let cartDetails  = new Object();
+	  
+	  for (var i = 0; i < values.cartItems.length; i++) {
+		  console.log(values.cartItems[i].id);
+		let bookId = values.cartItems[i].id;
+		let quantity = values.cartItems[i].quantity;
+		cartDetails[`${bookId}`] = quantity;
+    }
+	console.log('Buy Items !!!!!!!!!!');
+	console.log(cartDetails);
+	let orderRequest = {};
+	orderRequest.email = UserAPI.getEmail();
+	orderRequest.items = cartDetails;
+	console.log(orderRequest);
+	UserAPI.executeProcessOrderAPIService(orderRequest)
+		.then(response => this.handleSuccessfulResponse(response, values))
+	    .catch(error => this.handleErrorResponse(error))
+  }
+  
   validate(values)
   {
 	  console.log(values)
@@ -93,14 +136,15 @@ class CartComponent extends Component {
   
   handleSuccessfulResponse(response, quantity)
   {
-	  console.log('Cart item' + quantity);
-	  console.log(response.data);
-	  let cartItem = {
-		  image: response.data.image,
-		  quantity: quantity
-	  }
+	  console.log('Success');
+	  //console.log('Cart item' + quantity);
+	  //console.log(response.data);
+	  //let cartItem = {
+		//  image: response.data.image,
+		  //quantity: quantity
+	  //}
 	  
-	  return cartItem;
+	  //return cartItem;
 	  //console.log('Single item' + JSON.stringify(cartItem));
   }
   

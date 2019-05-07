@@ -38,6 +38,11 @@ class UserAPI
 		return sessionStorage.getItem('authenicatedUser');
 	}
 	
+	getEmail()
+	{
+		return sessionStorage.getItem('authenicatedEmail');
+	}
+	
 	async displayCart()
 	{
 		console.log('Getting the cart details');
@@ -49,6 +54,13 @@ class UserAPI
 		{
 			arr.splice(index, 1);
 		}
+		index = arr.indexOf('authenicatedEmail');
+		if (index > -1)
+		{
+			arr.splice(index, 1);
+		}
+		
+		
 		console.log(arr)
 		
 		console.log('loop IN USER API');
@@ -130,6 +142,27 @@ class UserAPI
     };
 		
 		return axios.post(`http://localhost:8080/user/previouspurchase/`, userId, axiosConfig)
+	}
+	
+	executeProcessOrderAPIService(orderDetails)
+	{
+		console.log('executeProcessOrderAPIService')
+		console.log(orderDetails)
+		
+		return axios.post(`http://localhost:8080/user/processOrder/`, orderDetails)
+	}
+	
+	executeTrackOrderAPIService()
+	{
+		console.log('executeProcessOrderAPIService')
+		console.log(sessionStorage.getItem('authenicatedEmail'))
+		let axiosConfig = {
+		headers: {
+          'Content-Type': 'application/json;charset=UTF-8'
+      }
+    };
+		
+		return axios.post(`http://localhost:8080/user/trackOrder/`, sessionStorage.getItem('authenicatedEmail'), axiosConfig)
 	}
 	
 	executeupdateAddressAPIService(user)

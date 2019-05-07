@@ -7,18 +7,18 @@ import org.springframework.stereotype.Component;
 @Component
 public class OrderRequest
 {
-	private int userId;
+	private String email;
 	private HashMap<Integer, Integer> items;
 	
 	public OrderRequest()
 	{}
 
-	public int getUserId() {
-		return userId;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public HashMap<Integer, Integer> getItems() {
@@ -31,6 +31,6 @@ public class OrderRequest
 
 	@Override
 	public String toString() {
-		return "OrdeRequest [userId=" + userId + ", items=" + items + "]";
+		return "OrderRequest [email=" + email + ", items=" + items + "]";
 	}
 }
