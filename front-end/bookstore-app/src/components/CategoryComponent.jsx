@@ -83,7 +83,6 @@ class CategoryComponent extends Component {
   
   validate(values)
   {
-	  console.log(values)
 	  let errors = {};
 	  let message = 'Invalid category';
 	  
@@ -95,8 +94,6 @@ class CategoryComponent extends Component {
   
   browse(values)
   {
-	  console.log('Check session info and add to cart');
-	  console.log(values.categoryId);
 	  SearchAPI.executeBrowseByCategoryAPIService(values.categoryId)
 		.then(response => this.handleSuccessfulResponse(response))
 		.catch(error => this.handleErrorResponse(error))
@@ -112,7 +109,6 @@ class CategoryComponent extends Component {
   
   handleErrorResponse(error)
   {
-	  console.log(error);
 	  if(error.response.status === 404)
 		error.response.status = error.response.status + ' Not found';
 

@@ -92,7 +92,6 @@ class UpdateAddressComponent extends Component {
   
   validate(values)
   {
-		console.log(values);
 		let errors = {};
 		let message = 'This field is mandatory';
 		
@@ -110,9 +109,6 @@ class UpdateAddressComponent extends Component {
   
   updateAddress(values)
   {
-	  console.log('update the user');
-	  console.log(values);
-	  
 	  let user = {
 		id: this.state.user.id,
 		addressline1 : values.addressline1,
@@ -127,7 +123,6 @@ class UpdateAddressComponent extends Component {
   
   handleSuccessfulResponse1(response)
   {
-	  console.log(response.data)
   }
   
   handleSuccessfulResponse2(response)
@@ -139,7 +134,6 @@ class UpdateAddressComponent extends Component {
   
   handleSuccessfulResponse(response)
   {
-	  console.log(response.data)
 	  let userData = response.data;
 	  
 	  let user = {
@@ -151,10 +145,7 @@ class UpdateAddressComponent extends Component {
 		  pin : userData.pin
 	  }
 	  
-	  this.setState({
-		  user
-	  })
-	  console.log('User:::::::::' + user)
+	  this.setState({ user })
   }
   
   handleErrorResponse(error)

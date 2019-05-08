@@ -69,9 +69,6 @@ class LoginComponent extends Component {
   
   logUser(values)
   {
-	  console.log('Log the user');
-	  console.log(values);
-	  console.log(this.state);
 	  let user = { 
 		email : values.email,
 		password : values.password
@@ -79,12 +76,10 @@ class LoginComponent extends Component {
 	  UserAPI.executeAuthenticateUserAPIService(user)
 		.then(response => this.handleSuccessfulResponse(response, values))
 	    .catch(error => this.handleErrorResponse(error))
-	  console.log(this.state);
   }
   
   validate(values)
   {
-	  console.log(values)
 	  let errors = {};
 	  let message = 'This field is mandatory';
 	  
@@ -98,16 +93,11 @@ class LoginComponent extends Component {
   
   createAccount()
   {
-	  console.log('Create a new account');
-	  console.log(this.state);
 	  this.props.history.push("/createAccount")
-	  console.log(this.state);
   }
   
   handleSuccessfulResponse(response, values)
   {
-	  console.log('User logged in successfully');
-	  console.log(response.data);
 	  UserAPI.registerLogin(response.data.firstName, response.data.email)//values.email)
 	  this.props.history.push("/home")
   }

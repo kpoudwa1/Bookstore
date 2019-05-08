@@ -146,7 +146,6 @@ class CreateAccountComponent extends Component {
   
   createUser(values)
   {
-	  console.log('Create the user');
 	  let user = { 
 		firstName : values.firstName,
 		lastName : values.lastName,
@@ -166,8 +165,6 @@ class CreateAccountComponent extends Component {
   
   validate(values)
   {
-		console.log(values.gender);
-		console.log(values);
 		let errors = {};
 		let message = 'This field is mandatory';
 		
@@ -203,17 +200,13 @@ class CreateAccountComponent extends Component {
   
   handleSuccessfulResponse(response, values)
   {
-	  console.log('User created successfully')
 	  UserAPI.registerLogin(values.firstName, values.email)
 	  this.props.history.push("/home")
   }
   
   handleErrorResponse(error)
   {
-	  console.log(error.status + 'AAAAAAAAAAAA')
-	  this.setState({
-			createFailed : true
-		})
+	  this.setState({ createFailed : true })
   }
 }
 

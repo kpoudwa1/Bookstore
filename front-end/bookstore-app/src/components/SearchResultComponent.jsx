@@ -34,15 +34,9 @@ class SearchResultComponent extends Component {
       </div>
     );
   }
-  
-  handleLoad()
-  {
-	  console.log('On load')
-  }
-  
+    
   componentDidMount()
   {
-    console.log(`GrandChild did mount. ${this.props.match.params.title}`);
 	SearchAPI.executeSearchAPIService(this.props.match.params.title)
 	.then(response => this.handleSuccessfulResponse(response))
 	.catch(error => this.handleErrorResponse(error))
@@ -50,12 +44,7 @@ class SearchResultComponent extends Component {
   
   handleSuccessfulResponse(response)
   {
-	  console.log(response.data)
-	  this.setState({
-		  books: response.data
-	  })
-	  console.log('Books:::::::::')
-	  //console.log(this.state.books[0][2])
+	  this.setState({ books: response.data })
   }
   
   handleErrorResponse(error)

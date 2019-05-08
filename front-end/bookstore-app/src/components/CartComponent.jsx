@@ -67,55 +67,30 @@ class CartComponent extends Component {
   
   async componentDidMount()
   {
-    console.log(`GrandChild did mount. ${this.props.match.params.title}`);
 	let arr = await UserAPI.displayCart()
-	console.log('ARRAY:::::::: ' + arr);
-	console.log('ARRAY:::::::: ' + arr.length);
 	
-	this.setState({
-		  cartItems: arr
-	  })
+	this.setState({ cartItems: arr })
 	  
 	if(arr.length === 0)
 	{
-		this.setState({
-		  isCartEmpty: true
-	  })
+		this.setState({ isCartEmpty: true })
 	}
-	/*for (var i = 0; i < arr.length; i++) {
-		let quantity = sessionStorage.getItem(arr[i]);
-        console.log('AAAAAAAAAAAAAAAAAAAAAAA' + arr[i] + ' :: ' + sessionStorage.getItem(arr[i]));
-		let cartItem = SearchAPI.executeSearchByIdAPIService(arr[i])
-		.then(response => this.handleSuccessfulResponse(response, quantity))
-		.catch(error => this.handleErrorResponse(error))
-		
-		console.log('CART ITEM IN LOOP: ' + JSON.stringify(cartItem));
-    }*/
-	//.then(response => this.handleSuccessfulResponse(response))
-	//.catch(error => this.handleErrorResponse(error))
   }
   
   buyItems(values)
   {
-	  console.log('Buy Items !!!!!!!!!!');
-	  console.log(values);
-	  
-	  //let email = UserAPI.getEmail();
-	  let cartDetails  = {};
-	  //new Object();
+	  let cartDetails  = {};//new Object();
 	  
 	  for (var i = 0; i < values.cartItems.length; i++) {
-		  console.log(values.cartItems[i].id);
 		let bookId = values.cartItems[i].id;
 		let quantity = values.cartItems[i].quantity;
 		cartDetails[`${bookId}`] = quantity;
     }
-	console.log('Buy Items !!!!!!!!!!');
-	console.log(cartDetails);
+	
 	let orderRequest = {};
 	orderRequest.email = UserAPI.getEmail();
 	orderRequest.items = cartDetails;
-	console.log(orderRequest);
+
 	UserAPI.executeProcessOrderAPIService(orderRequest)
 		.then(response => this.handleSuccessfulResponse(response, values))
 	    .catch(error => this.handleErrorResponse(error))
@@ -123,7 +98,6 @@ class CartComponent extends Component {
   
   validate(values)
   {
-	  console.log(values)
 	  let errors = {};
 	  let message = 'This field is mandatory';
 	  
@@ -137,22 +111,11 @@ class CartComponent extends Component {
   
   handleSuccessfulResponse(response, quantity)
   {
-	  console.log('Success');
 	  UserAPI.emptyCart();
 	  this.setState({
 		  cartItems: [],
 		  isOrderPlaced: true
 	  })
-
-	  //console.log('Cart item' + quantity);
-	  //console.log(response.data);
-	  //let cartItem = {
-		//  image: response.data.image,
-		  //quantity: quantity
-	  //}
-	  
-	  //return cartItem;
-	  //console.log('Single item' + JSON.stringify(cartItem));
   }
   
   handleErrorResponse(error)

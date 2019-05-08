@@ -35,7 +35,6 @@ class PreviousPurchasesComponent extends Component {
 								<td style={imageWidth}><img alt="{previous.title}" width="100px" src={'data:image/jpeg;base64,' + previous.image}/></td>
 								<td>{previous.quantity}</td>
 								<td>{previous.orderDate}</td>
-								
 							</tr>
 					)
 				}
@@ -56,10 +55,7 @@ class PreviousPurchasesComponent extends Component {
   
   handleSuccessfulResponse(response)
   {
-	  console.log(response.data)
-	  this.setState({
-		  previousPurchases: response.data
-	  })
+	  this.setState({ previousPurchases: response.data })
 	  
 	  if(response.data.length === 0)
 	  {
@@ -67,8 +63,6 @@ class PreviousPurchasesComponent extends Component {
 		  hasPreviousPurchases: true
 		})
 	  }
-	  
-	  console.log('Books::::::::: ' + this.state.previousPurchases[0])
   }
   
   handleErrorResponse(error)

@@ -48,7 +48,6 @@ class TrackOrderComponent extends Component {
   
   componentDidMount()
   {
-    console.log(`GrandChild did mount. ${this.props.match.params.title}`);
 	UserAPI.executeTrackOrderAPIService()
 	.then(response => this.handleSuccessfulResponse(response))
 	.catch(error => this.handleErrorResponse(error))
@@ -56,24 +55,16 @@ class TrackOrderComponent extends Component {
   
   handleSuccessfulResponse(response)
   {
-	  console.log(response)
-	  console.log(response.data)
-
-	  this.setState({
-		  orders : response.data
-	  })
+	  this.setState({ orders : response.data })
 	  
 	  if(response.data.length === 0)
 	  {
-		this.setState({
-		  hasNoOrders: true
-		})
+		this.setState({ hasNoOrders: true })
 	  }
   }
   
   handleErrorResponse(error)
   {
-	  console.log(error);
 	  if(error.response.status === 404)
 		error.response.status = error.response.status + ' Not found';
 

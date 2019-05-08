@@ -91,7 +91,6 @@ class BookDetailsComponent extends Component {
   
   componentDidMount()
   {
-    console.log(`GrandChild did mount. ${this.props.match.params.title}`);
 	SearchAPI.executeBookDetailsAPIService(this.props.match.params.id)
 	.then(response => this.handleSuccessfulResponse(response))
 	.catch(error => this.handleErrorResponse(error))
@@ -99,8 +98,6 @@ class BookDetailsComponent extends Component {
   
   handleSuccessfulResponse(response)
   {
-	  console.log(response)
-	  console.log(response.data.bookFormat)
 	  let bookDetails = response.data;
 	  let authors = bookDetails.authors.map(a => " " + a.authorName);
 	  authors = authors.toString();
@@ -127,13 +124,10 @@ class BookDetailsComponent extends Component {
 	  this.setState({
 		  book
 	  })
-	  
-	  console.log(this.state)
   }
   
   handleErrorResponse(error)
   {
-	  console.log(error);
 	  if(error.response.status === 404)
 		error.response.status = error.response.status + ' Not found';
 
@@ -152,7 +146,6 @@ class BookDetailsComponent extends Component {
   
   validate(values)
   {
-	  console.log(values)
 	  let errors = {};
 	  let message = 'Invalid quantity';
 	  
@@ -164,16 +157,12 @@ class BookDetailsComponent extends Component {
   
   addToCart(values)
   {
-	  console.log('Check session info and add to cart');
 	  if(!UserAPI.isUserLoggedIn())
 	  {
-		  console.log('User Not found');
 		  this.props.history.push(`/login`)
 	  }
 	  else
 	  {
-		  console.log('User found');
-		  console.log(values);
 		  UserAPI.addItem(values.id, values.quantity);
 		  this.setState({
 			itemAdded : true
