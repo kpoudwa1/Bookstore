@@ -18,24 +18,24 @@ public class Author
 	public Author() 
 	{}
 
-	/*
-	 * public int getId() { return id; }
-	 */
-
-	public void setId(int id) {
+	public void setId(int id)
+	{
 		this.id = id;
 	}
 
-	public String getAuthorName() {
+	public String getAuthorName()
+	{
 		return authorName;
 	}
 
-	public void setAuthorName(String authorName) {
+	public void setAuthorName(String authorName)
+	{
 		this.authorName = authorName;
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "Author [id=" + id + ", authorName=" + authorName + "]";
 	}
 }

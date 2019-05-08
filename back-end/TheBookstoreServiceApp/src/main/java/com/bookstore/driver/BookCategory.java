@@ -18,19 +18,18 @@ public class BookCategory
 	public BookCategory() 
 	{}
 
-	/*
-	 * public int getId() { return id; }
-	 */
-
-	public void setId(int id) {
+	public void setId(int id)
+	{
 		this.id = id;
 	}
 
-	public String getCategoryName() {
+	public String getCategoryName()
+	{
 		return categoryName;
 	}
 
-	public void setCategoryName(String categoryName) {
+	public void setCategoryName(String categoryName)
+	{
 		this.categoryName = categoryName;
 	}
 

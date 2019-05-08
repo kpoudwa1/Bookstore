@@ -1,7 +1,6 @@
 package com.bookstore.driver;
 
 import java.util.Arrays;
-import java.util.List;
 
 public class BookDetails
 {
@@ -33,115 +32,119 @@ public class BookDetails
 		noOfCopies = (int) details[10];
 	}
 
-	public int getId() {
+	public int getId()
+	{
 		return id;
 	}
 
-
-	public void setId(int id) {
+	public void setId(int id) 
+	{
 		this.id = id;
 	}
 
-
-	public String getTitle() {
+	public String getTitle()
+	{
 		return title;
 	}
 
-
-	public void setTitle(String title) {
+	public void setTitle(String title)
+	{
 		this.title = title;
 	}
 
-	public String getAuthors() {
+	public String getAuthors() 
+	{
 		return authors;
 	}
 
-	public void setAuthors(String authors) {
+	public void setAuthors(String authors)
+	{
 		this.authors = authors;
 	}
 
-	public byte[] getImage() {
+	public byte[] getImage()
+	{
 		return image;
 	}
 
-
-	public void setImage(byte[] image) {
+	public void setImage(byte[] image)
+	{
 		this.image = image;
 	}
 
-
-	public String getSummary() {
+	public String getSummary()
+	{
 		return summary;
 	}
 
-
-	public void setSummary(String summary) {
+	public void setSummary(String summary)
+	{
 		this.summary = summary;
 	}
 
-
-	public String getCategory() {
+	public String getCategory()
+	{
 		return category;
 	}
 
-
-	public void setCategory(String category) {
+	public void setCategory(String category)
+	{
 		this.category = category;
 	}
 
-
-	public String getIsbn10() {
+	public String getIsbn10()
+	{
 		return isbn10;
 	}
 
-
-	public void setIsbn10(String isbn10) {
+	public void setIsbn10(String isbn10) 
+	{
 		this.isbn10 = isbn10;
 	}
 
-
-	public String getIsbn13() {
+	public String getIsbn13() 
+	{
 		return isbn13;
 	}
 
-
-	public void setIsbn13(String isbn13) {
+	public void setIsbn13(String isbn13)
+	{
 		this.isbn13 = isbn13;
 	}
 
-
-	public String getBookFormat() {
+	public String getBookFormat()
+	{
 		return bookFormat;
 	}
 
-
-	public void setBookFormat(String bookFormat) {
+	public void setBookFormat(String bookFormat) 
+	{
 		this.bookFormat = bookFormat;
 	}
 
-
-	public float getPrice() {
+	public float getPrice()
+	{
 		return price;
 	}
 
-
-	public void setPrice(float price) {
+	public void setPrice(float price)
+	{
 		this.price = price;
 	}
 
-
-	public int getNoOfCopies() {
+	public int getNoOfCopies()
+	{
 		return noOfCopies;
 	}
 
-
-	public void setNoOfCopies(int noOfCopies) {
+	public void setNoOfCopies(int noOfCopies)
+	{
 		this.noOfCopies = noOfCopies;
 	}
 
-
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "BookDetails [id=" + id + ", title=" + title + ", authors=" + authors + ", image="
 				+ Arrays.toString(image) + ", summary=" + summary + ", category=" + category + ", isbn10=" + isbn10
 				+ ", isbn13=" + isbn13 + ", bookFormat=" + bookFormat + ", price=" + price + ", noOfCopies="

@@ -29,7 +29,8 @@ public class UserInfo
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "UserInfo [firstName=" + firstName + ", email=" + email + "]";
 	}
 }

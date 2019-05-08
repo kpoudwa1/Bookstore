@@ -3,18 +3,15 @@ package com.bookstore.driver;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +22,7 @@ import com.bookstore.exceptions.UserNotFoundException;
 
 @RestController
 @CrossOrigin(origins="http://localhost:3000")
-@RequestMapping("/user")
+@RequestMapping("/bookstore/users")
 public class UserController
 {
 	@Autowired
@@ -34,12 +31,18 @@ public class UserController
 	OrderRepository orderRepo;
 	
 	private static Logger log = LogManager.getLogger(UserController.class);
-	//TODO create service for sign up
 
-	@PostMapping("/create/")
+	/**
+	 * Function for creating a user account.
+	 * @param user The details of the new user.
+	 * @return Does not return any data.
+	 * @exception UserAlreadyExists Throws an exception if the email
+	 *  already exists in the system.
+	 */
+	@PostMapping("/createAccount")
 	public ResponseEntity<Void> createUser(@RequestBody User user)
 	{
-		log.info("Create user service called !!!!!!!!!!!!!!!!!!!!!!");
+		log.info("Creating a new user account");
 		log.info(user);
 		
 		//Validation if email already exists
@@ -55,49 +58,59 @@ public class UserController
 		user.setDob(cal.getTime());
 
 		userRepo.save(user);
-		log.info("User stored in datbase");
+		log.info("New account created !");
 		
 		return ResponseEntity.created(null).build();
 	}
 	
-	//TODO create service for login
-	@PostMapping("/authenticate/")
+	/**
+	 * Function for authenticating an user.
+	 * @param user The email id and password.
+	 * @return Return the first name and email id of the user.
+	 * @exception UserNotFoundException Throws an exception if
+	 *  the user does not exists.
+	 */
+	@PostMapping("/authenticateUser")
 	public ResponseEntity<UserInfo> authenticate(@RequestBody User user)
 	{
-		log.info("Info received: " + user);
+		log.info("Authenticating user: " + user.getEmail());
+		
 		Optional<User> authUser = userRepo.findOneByEmailAndPassword(user.getEmail(), user.getPassword());
-		log.info("Info received from datbase: " + authUser);
-		log.info("TEST: " + authUser.isPresent());
-		
 		if(!authUser.isPresent())
+		{
+			log.info("User does not exists !");
 			throw new UserNotFoundException("Invalid credentials");
+		}
 		
+		//Setting the details to be returned
 		UserInfo userinfo = new UserInfo();
 		userinfo.setEmail(authUser.get().getEmail());
 		userinfo.setFirstName(authUser.get().getFirstName());
+		log.info("User authenticated");
 		
-		//return ResponseEntity.ok().build();
 		return ResponseEntity.ok(userinfo);
 	}
 	
 	/**
-	 * Function for getting the address projections for a person
-	 * @param email
-	 * @return
+	 * Function for getting the address details of a user.
+	 * @param email The email id for the user.
+	 * @return Returns the address details for the user.
 	 */
-	//TODO Service for updating user details
-	@PostMapping("/userDetails/")
+	@PostMapping("/getUserDetails")
 	public UserProjection getUserDetails(@RequestBody String email)
 	{
-		log.info("EMAIL:>>>>>>>>>>>>>>>>>>>>> " + email);
-		log.info("Info received: " + userRepo.findOneByEmail(email));
+		log.info("Getting the address details for " + email);
 		return userRepo.findOneByEmail(email);
 	}
 	
-	@PostMapping("/updateAddress/")
+	/**
+	 * Function for updating the user address in database.
+	 * @param user The address for the user.
+	 */
+	@PostMapping("/updateUserAddress")
 	public void updateUserAddress(@RequestBody User user)
 	{
-		log.info("User ::::::::::::::::::  " + user);
+		log.info("Updating the address for  " + user.getEmail());
 		Optional<User> dbUser = userRepo.findById(user.getId());
 
 		if(dbUser.isPresent())
@@ -112,20 +125,18 @@ public class UserController
 			
 			log.info("Address updated successfully");
 		}
-		
-		//TODO THROW USER NOT FOUND
-		log.info("Info received: " + userRepo.findById(user.getId()));
 	}
 	
 	/**
 	 * Function for getting the previous purchase history for a user.
-	 * @param userId
-	 * @return
+	 * @param userId The user id for the user.
+	 * @return Returns the purchase history for the user.
 	 */
-	@PostMapping("/previouspurchase/")
+	@PostMapping("/getPreviousPurchases")
 	public List<PurchaseHistory> getPreviousPurchases(@RequestBody int userId)
 	{
-		log.info("userId:>>>>>>>>>>>>>>>>>>>>> " + userId);
+		log.info("Getting the purchase history for " + userId);
+		
 		List<Object[]> previousPurchasesList = userRepo.findPreviousPurchases(userId, 5);
 		List<PurchaseHistory> purchasesList = new ArrayList<PurchaseHistory>();
 		for(int i = 0; i < previousPurchasesList.size(); i++)
@@ -139,17 +150,20 @@ public class UserController
 			purchasesList.add(temp);
 		}
 		
-		log.info(purchasesList);
+		log.info("Purchase history has been retrieved");
 		
 		return purchasesList;
 	}
 	
-	
-	@PostMapping("/processOrder/")
+	/**
+	 * Function for ordering books.
+	 * @param request The details of the order such as book id
+	 *  and quantity.
+	 */
+	@PostMapping("/processOrder")
 	public void processOrder(@RequestBody OrderRequest request)
 	{
-		log.info("Email id:>>>>>>>>>>>>>>>>>>>>> " + request.getEmail());
-		log.info("Email id:>>>>>>>>>>>>>>>>>>>>> " + request);
+		log.info("Processing order for " + request.getEmail());
 		
 		Optional<User> user = userRepo.findIdByEmail(request.getEmail());
 		int userId = user.get().getId();
@@ -169,17 +183,19 @@ public class UserController
 			
 			orderRepo.save(item);
 		}
-		if(user.isPresent())
-		{
-			
-		}
-		System.out.println();
+		
+		log.info("Order saved successfully");
 	}
 	
-	@PostMapping("/trackOrder/")
+	/**
+	 * Function for tracking pending orders.
+	 * @param email The email id of the user.
+	 * @return A list of pending orders for the user.
+	 */
+	@PostMapping("/trackOrders")
 	public List<TrackOrder> trackOrder(@RequestBody String email)
 	{
-		log.info("Email id:>>>>>>>>>>>>>>>>>>>>> " + email);
+		log.info("Tracking orders for " + email);
 		
 		Optional<User> user = userRepo.findIdByEmail(email);
 		int userId = user.get().getId();
@@ -198,46 +214,8 @@ public class UserController
 			ordersList.add(temp);
 		}
 		
-		/*
-		 * for(int i = 0 ; i < orders.size(); i++) { if(ordersList != null) { boolean
-		 * notExists = true; for(int j = 0; j < ordersList.size(); j++) {
-		 * if(ordersList.get(j).getBookId() == (int) orders.get(i)[0]) {
-		 * ordersList.get(j).getStatusTrack().put((String) orders.get(i)[2], (Date)
-		 * orders.get(i)[3]); notExists = false; break; } }
-		 * 
-		 * if(notExists) { TrackOrder temp = new TrackOrder(); temp.setBookId((int)
-		 * orders.get(i)[0]); temp.setImage((byte []) orders.get(i)[1]); HashMap<String,
-		 * Date> tempMap = new HashMap<String, Date>(); tempMap.put((String)
-		 * orders.get(i)[2], (Date) orders.get(i)[3]); temp.setStatusTrack(tempMap);
-		 * 
-		 * ordersList.add(temp); } } else { TrackOrder temp = new TrackOrder();
-		 * temp.setBookId((int) orders.get(i)[0]); temp.setImage((byte [])
-		 * orders.get(i)[1]); HashMap<String, Date> tempMap = new HashMap<String,
-		 * Date>(); tempMap.put((String) orders.get(i)[2], (Date) orders.get(i)[3]);
-		 * temp.setStatusTrack(tempMap);
-		 * 
-		 * ordersList.add(temp); } }
-		 */
+		log.info("Orders have been tracked");
 		
-		
-		System.out.println("ORDERS:::::::::::::::::::::: " + ordersList);
 		return ordersList;
 	}
-	
-	@GetMapping("/testMethod/")
-	public OrderRequest testMethod()
-	{
-		OrderRequest test = new OrderRequest();
-		test.setEmail("kedar@gmail.com");
-		HashMap<Integer, Integer> testMap = new HashMap<Integer, Integer>();
-		testMap.put(1, 5);
-		testMap.put(2, 8);
-		testMap.put(20, 4);
-		testMap.put(15, 1);
-		test.setItems(testMap);
-		
-		log.info(test);
-		return test;
-	}
-	
 }

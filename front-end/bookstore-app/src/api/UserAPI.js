@@ -1,26 +1,30 @@
 import axios from 'axios'
 import SearchAPI from '../api/SearchAPI.js';
-var crypto = require('crypto'); 
+import { API_URL } from '../Constants'
+export const USER_SESSION_EMAIL = 'authenicatedEmail'
+export const USER_SESSION_FIRST_NAME = 'authenicatedUser'
+
+var crypto = require('crypto');
 
 class UserAPI
 {
 	registerLogin(firstName, email)
 	{
 		console.log('###################################################################################');
-		sessionStorage.setItem('authenicatedUser', firstName);
-		sessionStorage.setItem('authenicatedEmail', email);
+		sessionStorage.setItem(USER_SESSION_FIRST_NAME, firstName);
+		sessionStorage.setItem(USER_SESSION_EMAIL, email);
 	}
 	
 	registerLogout()
 	{
-		sessionStorage.removeItem('authenicatedUser');
+		sessionStorage.removeItem(USER_SESSION_FIRST_NAME);
 		sessionStorage.removeItem('cart');
 		sessionStorage.clear();
 	}
 	
 	isUserLoggedIn()
 	{
-		let user = sessionStorage.getItem('authenicatedUser');
+		let user = sessionStorage.getItem(USER_SESSION_FIRST_NAME);
 		
 		if(user  === null)
 			return false
@@ -39,23 +43,23 @@ class UserAPI
 	
 	getUserName()
 	{
-		return sessionStorage.getItem('authenicatedUser');
+		return sessionStorage.getItem(USER_SESSION_FIRST_NAME);
 	}
 	
 	getEmail()
 	{
-		return sessionStorage.getItem('authenicatedEmail');
+		return sessionStorage.getItem(USER_SESSION_EMAIL);
 	}
 	
 	emptyCart()
 	{
 		let arr = Object.keys(sessionStorage);
 		
-		let index = arr.indexOf('authenicatedUser');
+		let index = arr.indexOf(USER_SESSION_FIRST_NAME);
 		if (index > -1)
 			arr.splice(index, 1);
 		
-		index = arr.indexOf('authenicatedEmail');
+		index = arr.indexOf(USER_SESSION_EMAIL);
 		if (index > -1)
 			arr.splice(index, 1);
 		
@@ -68,13 +72,13 @@ class UserAPI
 		console.log('Getting the cart details');
 		let arr = Object.keys(sessionStorage);
 		console.log(arr)
-		let index = arr.indexOf('authenicatedUser');
+		let index = arr.indexOf(USER_SESSION_FIRST_NAME);
 		console.log('INDEX: ' + index);
 		if (index > -1)
 		{
 			arr.splice(index, 1);
 		}
-		index = arr.indexOf('authenicatedEmail');
+		index = arr.indexOf(USER_SESSION_EMAIL);
 		if (index > -1)
 		{
 			arr.splice(index, 1);
@@ -122,7 +126,7 @@ class UserAPI
 		
 		
 		console.log(stateData)
-		return axios.post(`http://localhost:8080/user/create/`, stateData)
+		return axios.post(`${API_URL}/bookstore/users/createAccount`, stateData)
 	}
 	
 	executeAuthenticateUserAPIService(user)
@@ -132,7 +136,7 @@ class UserAPI
 		user.password = crypto.pbkdf2Sync(user.password, user.email, 1000, 64, `sha512`).toString(`hex`)
 		console.log(user)
 		
-		return axios.post(`http://localhost:8080/user/authenticate/`, user)
+		return axios.post(`${API_URL}/bookstore/users/authenticateUser`, user)
 	}
 	
 	executeGetUserDetailsAPIService(email)
@@ -148,7 +152,7 @@ class UserAPI
       }
     };
 		
-		return axios.post(`http://localhost:8080/user/userDetails/`, email, axiosConfig)
+		return axios.post(`${API_URL}/bookstore/users/getUserDetails`, email, axiosConfig)
 	}
 	
 	executeGetPreviousPurchasesAPIService(userId)
@@ -161,7 +165,7 @@ class UserAPI
       }
     };
 		
-		return axios.post(`http://localhost:8080/user/previouspurchase/`, userId, axiosConfig)
+		return axios.post(`${API_URL}/bookstore/users/getPreviousPurchases`, userId, axiosConfig)
 	}
 	
 	executeProcessOrderAPIService(orderDetails)
@@ -169,20 +173,20 @@ class UserAPI
 		console.log('executeProcessOrderAPIService')
 		console.log(orderDetails)
 		
-		return axios.post(`http://localhost:8080/user/processOrder/`, orderDetails)
+		return axios.post(`${API_URL}/bookstore/users/processOrder`, orderDetails)
 	}
 	
 	executeTrackOrderAPIService()
 	{
 		console.log('executeProcessOrderAPIService')
-		console.log(sessionStorage.getItem('authenicatedEmail'))
+		console.log(sessionStorage.getItem(USER_SESSION_EMAIL))
 		let axiosConfig = {
 		headers: {
           'Content-Type': 'application/json;charset=UTF-8'
       }
     };
 		
-		return axios.post(`http://localhost:8080/user/trackOrder/`, sessionStorage.getItem('authenicatedEmail'), axiosConfig)
+		return axios.post(`${API_URL}/bookstore/users/trackOrders`, sessionStorage.getItem(USER_SESSION_EMAIL), axiosConfig)
 	}
 	
 	executeupdateAddressAPIService(user)
@@ -190,7 +194,7 @@ class UserAPI
 		console.log('executeupdateAddressAPIService')
 		console.log(user)
 		
-		return axios.post(`http://localhost:8080/user/updateAddress/`, user)
+		return axios.post(`${API_URL}/bookstore/users/updateUserAddress`, user)
 	}
 }
 

@@ -6,8 +6,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-
-//@Component
 @Entity
 @Table(name="USER")
 public class User
@@ -165,7 +163,8 @@ public class User
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", dob=" + dob + ", gender="
 				+ gender + ", email=" + email + ", password=" + password + ", addressline1=" + addressline1
 				+ ", addressline2=" + addressline2 + ", city=" + city + ", state=" + state + ", pin=" + pin + "]";

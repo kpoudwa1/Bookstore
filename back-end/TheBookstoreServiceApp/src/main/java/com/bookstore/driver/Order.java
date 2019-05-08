@@ -1,7 +1,6 @@
 package com.bookstore.driver;
 
 import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -28,47 +27,58 @@ public class Order
 	public Order() 
 	{}
 
-	public int getId() {
+	public int getId()
+	{
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(int id)
+	{
 		this.id = id;
 	}
 
-	public int getUserId() {
+	public int getUserId()
+	{
 		return userId;
 	}
 
-	public void setUserId(int userId) {
+	public void setUserId(int userId)
+	{
 		this.userId = userId;
 	}
 
-	public int getBookId() {
+	public int getBookId()
+	{
 		return bookId;
 	}
 
-	public void setBookId(int bookId) {
+	public void setBookId(int bookId)
+	{
 		this.bookId = bookId;
 	}
 
-	public int getQuantity() {
+	public int getQuantity()
+	{
 		return quantity;
 	}
 
-	public void setQuantity(int quantity) {
+	public void setQuantity(int quantity)
+	{
 		this.quantity = quantity;
 	}
 
-	public int getStatus() {
+	public int getStatus()
+	{
 		return status;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(int status)
+	{
 		this.status = status;
 	}
 
-	public Date getStatusDate() {
+	public Date getStatusDate()
+	{
 		return statusDate;
 	}
 
@@ -77,7 +87,8 @@ public class Order
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "Order [id=" + id + ", userId=" + userId + ", bookId=" + bookId + ", quantity=" + quantity + ", status="
 				+ status + ", statusDate=" + statusDate + "]";
 	}

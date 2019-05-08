@@ -15,7 +15,7 @@ import com.bookstore.exceptions.BookNotFoundException;
 
 @RestController
 @CrossOrigin(origins="http://localhost:3000")
-@RequestMapping("/bookstore")
+@RequestMapping("/bookstore/books")
 public class BookstoreController
 {
 	@Autowired
@@ -26,11 +26,11 @@ public class BookstoreController
 	 * Function for searching whether a book exists in the repository
 	 *  on the basis of title.
 	 * @param title The title for the book which is to be checked.
-	 * @return Returns a projection list of book id, name and image.
+	 * @return Returns a projection list of books.
 	 * @exception BookNotFoundException Returns an exception when the
 	 *  book does not exists in the repository.
 	 */
-	@GetMapping("/books/{title}")
+	@GetMapping("/searchByTitle/{title}")
 	public List<BooksListProjection> getBookByTitle(@PathVariable String title)
 	{
 		log.info("Searching for the book with title '" + title + "'");
@@ -44,19 +44,20 @@ public class BookstoreController
 	
 	/** 
 	 * Function for searching whether a book exists in the repository
-	 *  on the basis of title.
-	 * @param title The title for the book which is to be checked.
-	 * @return Returns a projection list of book id, name and image.
+	 *  on the basis of id.
+	 * @param id The id for the book which is to be checked.
+	 * @return Returns the book if it exists in the repository.
 	 * @exception BookNotFoundException Returns an exception when the
 	 *  book does not exists in the repository.
 	 */
 	
-	@GetMapping("/book/{id}")
+	@GetMapping("/searchById/{id}")
 	public Optional<Book> getBookById(@PathVariable int id)
 	{
 		log.info("Searching for the book with id '" + id + "'");
 		
 		Optional<Book> book = bookRepo.findById(id);
+		
 		if(!book.isPresent())
 			throw new BookNotFoundException("Sorry! The book with the id '" + id + "' cannot be found");
 		
@@ -71,20 +72,26 @@ public class BookstoreController
 	 * @exception BookNotFoundException Returns an exception if an
 	 *  invalid id is passed.
 	 */
-	@GetMapping("/booksDetails/{id}")
+	@GetMapping("/getBookDetails/{id}")
 	public Optional<Book> getBookDetails(@PathVariable int id)
 	{
 		log.info("Getting the details for book with id '" + id + "'");
 		
 		Optional<Book> bookDetails = bookRepo.findById(id);
-		log.info(bookDetails.get().getSummary());
+		
 		if(!bookDetails.isPresent())
 			throw new BookNotFoundException("Sorry! Invalid book id '" + id + "'");
 		
 		return bookDetails;
 	}
 	
-	@GetMapping("/booksByCategory/{id}")
+	/**
+	 * Function for getting a list of books on the basis of book
+	 *  category.
+	 * @param id Category id of which books are to be searched
+	 * @return Returns a projection list of books.
+	 */
+	@GetMapping("/getBooksByCategory/{id}")
 	public List<BooksListProjection> getbooksByCategory(@PathVariable int id)
 	{
 		log.info("Getting the details for book with category id '" + id + "'");
