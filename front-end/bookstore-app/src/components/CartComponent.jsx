@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import {Link} from 'react-router-dom';
+import { Formik, Form} from 'formik';
 import UserAPI from '../api/UserAPI.js';
-import SearchAPI from '../api/SearchAPI.js';
 
 class CartComponent extends Component {
 	constructor(props)
@@ -39,7 +37,7 @@ class CartComponent extends Component {
 				{
 					this.state.cartItems.map(cartItem => 
 							<tr key={cartItem.id}>
-								<td style={imageWidth}><img width="100px" src={'data:image/jpeg;base64,' + cartItem.image}/></td>
+								<td style={imageWidth}><img alt={cartItem.id} width="100px" src={'data:image/jpeg;base64,' + cartItem.image}/></td>
 								<td>{cartItem.quantity}</td>
 							</tr>
 					)
@@ -78,7 +76,7 @@ class CartComponent extends Component {
 		  cartItems: arr
 	  })
 	  
-	if(arr.length == 0)
+	if(arr.length === 0)
 	{
 		this.setState({
 		  isCartEmpty: true
@@ -103,7 +101,8 @@ class CartComponent extends Component {
 	  console.log(values);
 	  
 	  //let email = UserAPI.getEmail();
-	  let cartDetails  = new Object();
+	  let cartDetails  = {};
+	  //new Object();
 	  
 	  for (var i = 0; i < values.cartItems.length; i++) {
 		  console.log(values.cartItems[i].id);

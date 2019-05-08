@@ -61,7 +61,7 @@ class PreviousPurchasesComponent extends Component {
 		  previousPurchases: response.data
 	  })
 	  
-	  if(response.data.length == 0)
+	  if(response.data.length === 0)
 	  {
 		this.setState({
 		  hasPreviousPurchases: true
@@ -94,12 +94,7 @@ var tableStyle =
 {
 	width: '60%'
 }
-const hrStyle = {
-  border: 'none',
-    height: '1px',
-    color: '#333',
-    backgroundColor: '#333'
-};
+
 var imageWidth =
 {
 	width: '70px',

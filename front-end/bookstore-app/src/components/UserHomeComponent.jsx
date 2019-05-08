@@ -2,10 +2,6 @@ import React, { Component } from 'react';
 import UserAPI from '../api/UserAPI.js';
 
 class UserHomeComponent extends Component {
-	constructor(props)
-	{
-		super(props)
-	}
 	
   render() {
     return (

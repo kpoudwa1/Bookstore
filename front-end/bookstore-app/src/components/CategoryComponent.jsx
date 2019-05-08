@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import SearchAPI from '../api/SearchAPI.js';
-import UserAPI from '../api/UserAPI.js';
 import {Link} from 'react-router-dom';
 
 class CategoryComponent extends Component {
@@ -135,22 +134,11 @@ var tableStyle =
 {
 	width: '90%'
 }
-var paddingImage = 
-{
-	paddingLeft: '55px'
-}
 
 var padding = 
 {
 	padding: '15px'
 }
-
-const hrStyle = {
-  border: 'none',
-    height: '1px',
-    color: '#333',
-    backgroundColor: '#333'
-};
 
 var imageWidth =
 {

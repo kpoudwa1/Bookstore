@@ -92,11 +92,4 @@ var imageWidth =
 	paddingLeft: '15px'
 }
 
-const hrStyle = {
-  border: 'none',
-    height: '1px',
-    color: '#333',
-    backgroundColor: '#333'
-};
-
 export default SearchResultComponent;

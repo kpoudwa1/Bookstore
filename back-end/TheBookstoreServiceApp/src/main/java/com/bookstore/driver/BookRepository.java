@@ -10,4 +10,6 @@ public interface BookRepository extends JpaRepository<Book, Integer>
 	public List<BooksListProjection> findByTitleContaining(String title);
 	
 	public List<BooksListProjection> findByBookCategoryId(int id);
+	
+	public Book findFirstByOrderByIdDesc();
 }

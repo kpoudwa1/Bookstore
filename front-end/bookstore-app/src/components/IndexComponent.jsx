@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import LoginComponent from './LoginComponent';
-import DealsTodayComponent from './DealsTodayComponent';
 import AboutComponent from './AboutComponent';
 import UserHomeComponent from './UserHomeComponent';
 import ErrorComponent from './ErrorComponent';
@@ -37,7 +36,6 @@ class IndexComponent extends Component {
 						<Route path="/" exact component={SearchComponent}/>
 						<Route path="/login" component={LoginComponent}/>
 						<Route path="/logout" component={LogoutComponent}/>
-						<Route path="/dealstoday" component={DealsTodayComponent}/>
 						<Route path="/about" component={AboutComponent}/>
 						<Route path="/home" component={UserHomeComponent}/>
 						<Route path="/search/:title" component={SearchResultComponent}/>

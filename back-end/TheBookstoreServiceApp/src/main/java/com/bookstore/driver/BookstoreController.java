@@ -1,7 +1,12 @@
 package com.bookstore.driver;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
+import java.util.Set;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,10 +97,48 @@ public class BookstoreController
 	 * @return Returns a projection list of books.
 	 */
 	@GetMapping("/getBooksByCategory/{id}")
-	public List<BooksListProjection> getbooksByCategory(@PathVariable int id)
+	public List<BooksListProjection> getBooksByCategory(@PathVariable int id)
 	{
 		log.info("Getting the details for book with category id '" + id + "'");
 		
 		return bookRepo.findByBookCategoryId(id);
+	}
+	
+	/**
+	 * Function for generating a list of random books.
+	 * @return Returns the list of random books.
+	 */
+	@GetMapping("/getBooks")
+	public List<Book []> getRandomBooks()
+	{
+		log.info("Getting random books");
+		
+		Book maxBook = bookRepo.findFirstByOrderByIdDesc();
+		int maxId = maxBook.getId();
+		log.info("Max id " + maxId);
+
+		Set<Integer> idSet = new HashSet<Integer>();
+		Random random = new Random();
+		while(idSet.size() != 6)
+			idSet.add(random.nextInt(maxId + 1));
+		
+		log.info("Books set " + idSet);
+		
+		List<Book []> list = new ArrayList<Book[]>();
+		Iterator<Integer> iter = idSet.iterator();
+		for(int i = 0; i < 2; i++)
+		{
+			Book [] arr = new Book[3];
+			int j = 0;
+			while(j <= 2 && iter.hasNext())
+			{
+				Optional<Book> book = bookRepo.findById(iter.next());
+				arr[j] = book.get();
+				j++;
+			}
+			list.add(arr);
+		}
+
+		return list;
 	}
 }

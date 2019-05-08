@@ -22,7 +22,6 @@ class HeaderComponent extends Component {
 			<nav className="navbar navbar-expand-md navbar-dark bg-dark">
 				<div><Link to=""><img alt="Turn the page" src={Logo} width="50" height="50"/></Link></div>
 				<ul className="navbar-nav">
-					<li className="nav-link"><Link to="/dealstoday">Today's Deals</Link></li>
 					<li className="nav-link"><Link to="/categories">Browse by Category</Link></li>
 					<li className="nav-link"><Link to="/about">About</Link></li>
 				</ul>

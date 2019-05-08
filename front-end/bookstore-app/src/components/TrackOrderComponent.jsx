@@ -32,7 +32,7 @@ class TrackOrderComponent extends Component {
 				{
 					this.state.orders.map(order => 
 							<tr key={order.bookId}>
-								<td style={tdWidth}><img width="70px" src={'data:image/jpeg;base64,' + order.image}/></td>
+								<td style={tdWidth}><img alt={order.bookId} width="70px" src={'data:image/jpeg;base64,' + order.image}/></td>
 								<td style={tdWidth}>{order.status}</td>
 								<td style={tdWidth}>{order.statusDate}</td>
 							</tr>
@@ -63,7 +63,7 @@ class TrackOrderComponent extends Component {
 		  orders : response.data
 	  })
 	  
-	  if(response.data.length == 0)
+	  if(response.data.length === 0)
 	  {
 		this.setState({
 		  hasNoOrders: true

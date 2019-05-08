@@ -10,7 +10,8 @@ class BookDetailsComponent extends Component {
 		this.state = {
 			book : {},
 			quantity : 0,
-			itemAdded : false
+			itemAdded : false,
+			isLimited : false
 		}
 		this.handleSuccessfulResponse = this.handleSuccessfulResponse.bind(this)
 		this.handleErrorResponse = this.handleErrorResponse.bind(this)
@@ -24,6 +25,7 @@ class BookDetailsComponent extends Component {
     return (
       <div className="BookDetailsComponent">
 	  <br/>
+	    {this.state.isLimited && <div><br/><font className="alert alert-warning">Hurry ! Only {this.state.book.noOfCopies} left in stock</font><br/><br/></div>}
 		<table style={tableStyle}>
 			<tbody>
 			<tr key={this.state.book.id}>
@@ -34,7 +36,7 @@ class BookDetailsComponent extends Component {
 					<h2 align="left">{this.state.book.title}<br/></h2>
 					<h5 align="left"> by {this.state.book.authors}</h5>
 					<h5 align="left">{this.state.book.category}<br/><br/></h5>
-					<p align="justify">{this.state.book.summary}</p>
+					<p align="justify" style={pStyle}>{this.state.book.summary}</p>
 					<hr style={hrStyle}/>
 					<p align="justify">
 						ISBN10: {this.state.book.isbn10}<br/>
@@ -98,11 +100,16 @@ class BookDetailsComponent extends Component {
   handleSuccessfulResponse(response)
   {
 	  console.log(response)
+	  console.log(response.data.bookFormat)
 	  let bookDetails = response.data;
 	  let authors = bookDetails.authors.map(a => " " + a.authorName);
-	  if(authors.toString().endsWith(','))
-		authors = authors.toString().substring(0, authors.toString().length - 1);
-	  	  
+	  authors = authors.toString();
+	  
+	  if(bookDetails.bookFormat[0].noOfCopies <= 10)
+	  {
+		  this.setState({ isLimited : true })
+	  }
+		
 	  let book = {
 		  id : bookDetails.id,
 		  title : bookDetails.title,
@@ -120,6 +127,8 @@ class BookDetailsComponent extends Component {
 	  this.setState({
 		  book
 	  })
+	  
+	  console.log(this.state)
   }
   
   handleErrorResponse(error)
@@ -185,6 +194,11 @@ var paddingImage =
 var padding = 
 {
 	padding: '15px'
+}
+
+var pStyle = 
+{
+	whiteSpace: 'pre-wrap'
 }
 
 const hrStyle = {
