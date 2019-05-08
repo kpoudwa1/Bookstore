@@ -1,26 +1,27 @@
 import React, { Component } from 'react';
+import Librarian from '../librarian.jpg';
 
 class ErrorComponent extends Component {
 	constructor(props)
 	{
 		super(props)
 		this.state = {
-			error : {}
+			error : {},
 		}
 	}
 	
   render() {
     return (
-      <div className="ErrorComponent" align="left">
-		<h3>{this.props.location.state.status}</h3>
-		<br/>
-		<h4>Details: </h4>
-		<h4>{this.props.location.state.message}</h4>
-		<h4>Timestamp: {this.props.location.state.timestamp}</h4>
+      <div className="ErrorComponent">
+		<center>
+			<br/>
+			<div><a href="/" className="navbar-brand"><img alt="Turn the page" src={Librarian} width="150" height="150"/></a></div>
+			<br/>
+			<h4>Oops! Something went wrong. Please contact the admin.</h4>
+		</center>
       </div>
     );
   }
-  
 }
 
 export default ErrorComponent;

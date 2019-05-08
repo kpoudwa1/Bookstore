@@ -104,13 +104,18 @@ class LoginComponent extends Component {
   
   handleErrorResponse(error)
   {
-	  if(error.response.status === 404)
-		error.response.status = error.response.status + ' Not found';
+	  if(!error.response)
+		  this.props.history.push({ pathname: '/error' })
+	  else
+	  {
+		  if(error.response.status === 404)
+			error.response.status = error.response.status + ' Not found';
 
-	  this.setState({
+		  this.setState({
 			loginFailed : true,
 			loginSuccess : false
-		})
+		  })
+	  }
   }
 }
 

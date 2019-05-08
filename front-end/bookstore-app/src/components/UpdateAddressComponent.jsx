@@ -119,6 +119,7 @@ class UpdateAddressComponent extends Component {
 	  }
 	  UserAPI.executeupdateAddressAPIService(user)
 		.then(response => this.handleSuccessfulResponse2(response))
+		.catch(error => this.handleErrorResponse(error))
   }
   
   handleSuccessfulResponse1(response)
@@ -150,20 +151,8 @@ class UpdateAddressComponent extends Component {
   
   handleErrorResponse(error)
   {
-	  if(error.response.status === 404)
-		error.response.status = error.response.status + ' Not found';
-
-	  var errorObj =
-	  {
-		  status: error.response.status,
-		  details: error.response.data.details,
-		  message: error.response.data.message,
-		  timestamp: error.response.data.timestamp
-	  }
-	  this.props.history.push({
-		  pathname: '/error',
-		  state: errorObj
-	  })
+	  if(!error.response)
+		  this.props.history.push({ pathname: '/error' })
   }
 }
 

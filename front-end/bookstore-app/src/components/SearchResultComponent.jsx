@@ -7,7 +7,9 @@ class SearchResultComponent extends Component {
 	{
 		super(props)
 		this.state = {
-			books : []
+			books : [],
+			errorMessage : '',
+			isError : false
 		}
 		this.handleSuccessfulResponse = this.handleSuccessfulResponse.bind(this)
 		this.handleErrorResponse = this.handleErrorResponse.bind(this)
@@ -18,6 +20,7 @@ class SearchResultComponent extends Component {
       <div className="SearchResultComponent">
 		<label><h2>Displaying the results...</h2></label>
 		<center>
+			{this.state.isError && <div><br/><font className="alert alert-danger">{this.state.errorMessage}</font><br/><br/></div>}
 			<table style={tableStyle} className="table">
 			<tbody>
 				{
@@ -49,20 +52,10 @@ class SearchResultComponent extends Component {
   
   handleErrorResponse(error)
   {
-	  if(error.response.status === 404)
-		error.response.status = error.response.status + ' Not found';
-
-	  var errorObj =
-	  {
-		  status: error.response.status,
-		  details: error.response.data.details,
-		  message: error.response.data.message,
-		  timestamp: error.response.data.timestamp
-	  }
-	  this.props.history.push({
-		  pathname: '/error',
-		  state: errorObj
-	  })
+	  if(!error.response)
+		  this.props.history.push({ pathname: '/error' })
+	  else
+		  this.setState({errorMessage : error.response.data.message, isError : true});
   }
 }
 

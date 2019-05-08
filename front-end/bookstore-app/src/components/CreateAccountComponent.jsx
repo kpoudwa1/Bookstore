@@ -206,7 +206,10 @@ class CreateAccountComponent extends Component {
   
   handleErrorResponse(error)
   {
-	  this.setState({ createFailed : true })
+	  if(!error.response)
+		  this.props.history.push({ pathname: '/error' })
+	  else
+		this.setState({ createFailed : true })
   }
 }
 
